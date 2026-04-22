@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rappi Clone - Delivery de Comida</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary-color: #f60;
+            --secondary-color: #333;
+            --light-color: #f4f4f4;
+            --dark-color: #222;
+            --success-color: #28a745;
+            --admin-color: #4a6bdf;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        ul {
+            list-style: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #e55a00;
+            transform: translateY(-2px);
+        }
+        
+        .btn-admin {
+            background: var(--admin-color);
+        }
+        
+        .btn-admin:hover {
+            background: #3a56c4;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+        }
+        
+        .search-bar i {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .user-actions a {
+            margin-left: 15px;
+            font-weight: 500;
+        }
+        
+        .user-actions .btn {
+            margin-left: 15px;
+        }
+        
+        .nav-categories {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+        }
+        
+        .nav-categories a {
+            padding: 8px 15px;
+            white-space: nowrap;
+            border-radius: 20px;
+            margin-right: 10px;
+            background: #f5f5f5;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .nav-categories a:hover, .nav-categories a.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Botón de administración flotante */
+        .admin-floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--admin-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-floating-btn:hover {
+            background: #3a56c4;
+            transform: scale(1.1);
+        }
+        
+        /* Panel de administración */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1001;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .admin-panel.active {
+            right: 0;
+        }
+        
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--admin-color);
+        }
+        
+        .close-admin {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .admin-section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+        }
+        
+        .admin-section h3 {
+            margin-bottom: 15px;
+            color: var(--admin-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .add-product-btn {
+            width: 30px;
+            height: 30px;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .add-product-btn:hover {
+            background: #218838;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        
+        .image-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-top: 10px;
+            border: 1px dashed #ccc;
+            display: none;
+        }
+        
+        .image-preview.active {
+            display: block;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: inline-block;
+            padding: 8px 15px;
+            background: #f0f0f0;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+        }
+        
+        .file-input-label:hover {
+            background: #e0e0e0;
+        }
+        
+        .product-list {
+            margin-top: 15px;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+        
+        .product-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        
+        .product-info {
+            flex: 1;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .delete-btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Restaurants Section */
+        .section-title {
+            margin: 40px 0 20px;
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+        }
+        
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .restaurant-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .restaurant-img {
+            height: 160px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .restaurant-info {
+            padding: 15px;
+        }
+        
+        .restaurant-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .restaurant-category {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .restaurant-rating {
+            display: flex;
+            align-items: center;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .restaurant-rating i {
+            margin-right: 5px;
+        }
+        
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-img {
+            height: 140px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .product-description {
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 8px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        
+        .add-to-cart:hover {
+            background: #e55a00;
+        }
+        
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 350px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .cart-sidebar.active {
+            right: 0;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .cart-items {
+            margin-bottom: 20px;
+        }
+        
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-item-img {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .cart-item-price {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+        
+        .quantity-btn {
+            width: 25px;
+            height: 25px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quantity {
+            margin: 0 10px;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            background: #218838;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-icons a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icons a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Pantallas específicas de categoría */
+        .category-screen {
+            display: none;
+        }
+        
+        .category-screen.active {
+            display: block;
+        }
+        
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .back-button i {
+            margin-right: 5px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                margin: 15px 0 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cart-sidebar, .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .admin-floating-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">RAPPI</div>
+                <div class="search-bar">
+                </div>
+                <div class="user-actions">
+                    <button class="btn" id="cart-toggle">Carrito (<span id="cart-count">0</span>)</button>
+                </div>
+            </div>
+            <nav class="nav-categories">
+                <a href="#" class="category-link active" data-category="all">Todos</a>
+                <a href="#" class="category-link" data-category="perros">Perros</a>
+                <a href="#" class="category-link" data-category="hamburguesas">Hamburguesas</a>
+                <a href="#" class="category-link" data-category="salchipapas">Salchipapas</a>
+                <a href="#" class="category-link" data-category="postres">Postres</a>
+                <a href="#" class="category-link" data-category="bebidas">Bebidas</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Botón flotante de administración -->
+    <div class="admin-floating-btn" id="admin-toggle">
+        +
+    </div>
+
+    <!-- Panel de administración -->
+    <div class="admin-panel" id="admin-panel">
+        <div class="admin-header">
+            <h2>Panel de Administración</h2>
+            <button class="close-admin" id="close-admin">×</button>
+        </div>
+        
+        <!-- Sección para agregar perros -->
+        <div class="admin-section" id="admin-perros">
+            <h3>
+                Perros Calientes
+                <button class="add-product-btn" data-category="perros">+</button>
+            </h3>
+            <div class="product-list" id="perros-list">
+                <!-- Productos de perros existentes -->
+            </div>
+            <div class="add-product-form" id="perros-form" style="display: none;">
+                <div class="form-group">
+                    <label for="perros-name">Nombre del Producto:</label>
+                    <input type="text" id="perros-name" placeholder="Ej: Perro Especial">
+                </div>
+                <div class="form-group">
+                    <label for="perros-description">Descripción:</label>
+                    <textarea id="perros-description" placeholder="Ingredientes y detalles"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="perros-price">Precio:</label>
+                    <input type="number" id="perros-price" step="0.01" placeholder="Ej: 9.99">
+                </div>
+                <div class="form-group">
+                    <label for="perros-image">Imagen del Producto:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-label">Seleccionar Archivo</button>
+                        <input type="file" id="perros-image" accept="image/*">
+                    </div>
+                    <img id="perros-preview" class="image-preview" alt="Vista previa">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-admin" id="save-perros">Guardar Producto</button>
+                    <button class="btn" id="cancel-perros" style="background: #777; margin-left: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección para agregar hamburguesas -->
+        <div class="admin-section" id="admin-hamburguesas">
+            <h3>
+                Hamburguesas
+                <button class="add-product-btn" data-category="hamburguesas">+</button>
+            </h3>
+            <div class="product-list" id="hamburguesas-list">
+                <!-- Productos de hamburguesas existentes -->
+            </div>
+            <div class="add-product-form" id="hamburguesas-form" style="display: none;">
+                <div class="form-group">
+                    <label for="hamburguesas-name">Nombre del Producto:</label>
+                    <input type="text" id="hamburguesas-name" placeholder="Ej: Hamburguesa BBQ">
+                </div>
+                <div class="form-group">
+                    <label for="hamburguesas-description">Descripción:</label>
+                    <textarea id="hamburguesas-description" placeholder="Ingredientes y detalles"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="hamburguesas-price">Precio:</label>
+                    <input type="number" id="hamburguesas-price" step="0.01" placeholder="Ej: 12.50">
+                </div>
+                <div class="form-group">
+                    <label for="hamburguesas-image">Imagen del Producto:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-label">Seleccionar Archivo</button>
+                        <input type="file" id="hamburguesas-image" accept="image/*">
+                    </div>
+                    <img id="hamburguesas-preview" class="image-preview" alt="Vista previa">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-admin" id="save-hamburguesas">Guardar Producto</button>
+                    <button class="btn" id="cancel-hamburguesas" style="background: #777; margin-left: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección para agregar salchipapas -->
+        <div class="admin-section" id="admin-salchipapas">
+            <h3>
+                Salchipapas
+                <button class="add-product-btn" data-category="salchipapas">+</button>
+            </h3>
+            <div class="product-list" id="salchipapas-list">
+                <!-- Productos de salchipapas existentes -->
+            </div>
+            <div class="add-product-form" id="salchipapas-form" style="display: none;">
+                <div class="form-group">
+                    <label for="salchipapas-name">Nombre del Producto:</label>
+                    <input type="text" id="salchipapas-name" placeholder="Ej: Salchipapas Especiales">
+                </div>
+                <div class="form-group">
+                    <label for="salchipapas-description">Descripción:</label>
+                    <textarea id="salchipapas-description" placeholder="Ingredientes y detalles"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="salchipapas-price">Precio:</label>
+                    <input type="number" id="salchipapas-price" step="0.01" placeholder="Ej: 10.99">
+                </div>
+                <div class="form-group">
+                    <label for="salchipapas-image">Imagen del Producto:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-label">Seleccionar Archivo</button>
+                        <input type="file" id="salchipapas-image" accept="image/*">
+                    </div>
+                    <img id="salchipapas-preview" class="image-preview" alt="Vista previa">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-admin" id="save-salchipapas">Guardar Producto</button>
+                    <button class="btn" id="cancel-salchipapas" style="background: #777; margin-left: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección para agregar postres -->
+        <div class="admin-section" id="admin-postres">
+            <h3>
+                Postres
+                <button class="add-product-btn" data-category="postres">+</button>
+            </h3>
+            <div class="product-list" id="postres-list">
+                <!-- Productos de postres existentes -->
+            </div>
+            <div class="add-product-form" id="postres-form" style="display: none;">
+                <div class="form-group">
+                    <label for="postres-name">Nombre del Producto:</label>
+                    <input type="text" id="postres-name" placeholder="Ej: Pastel de Chocolate">
+                </div>
+                <div class="form-group">
+                    <label for="postres-description">Descripción:</label>
+                    <textarea id="postres-description" placeholder="Ingredientes y detalles"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="postres-price">Precio:</label>
+                    <input type="number" id="postres-price" step="0.01" placeholder="Ej: 8.50">
+                </div>
+                <div class="form-group">
+                    <label for="postres-image">Imagen del Producto:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-label">Seleccionar Archivo</button>
+                        <input type="file" id="postres-image" accept="image/*">
+                    </div>
+                    <img id="postres-preview" class="image-preview" alt="Vista previa">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-admin" id="save-postres">Guardar Producto</button>
+                    <button class="btn" id="cancel-postres" style="background: #777; margin-left: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección para agregar bebidas -->
+        <div class="admin-section" id="admin-bebidas">
+            <h3>
+                Bebidas
+                <button class="add-product-btn" data-category="bebidas">+</button>
+            </h3>
+            <div class="product-list" id="bebidas-list">
+                <!-- Productos de bebidas existentes -->
+            </div>
+            <div class="add-product-form" id="bebidas-form" style="display: none;">
+                <div class="form-group">
+                    <label for="bebidas-name">Nombre del Producto:</label>
+                    <input type="text" id="bebidas-name" placeholder="Ej: Jugo Natural 500ml">
+                </div>
+                <div class="form-group">
+                    <label for="bebidas-description">Descripción:</label>
+                    <textarea id="bebidas-description" placeholder="Ingredientes y detalles"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="bebidas-price">Precio:</label>
+                    <input type="number" id="bebidas-price" step="0.01" placeholder="Ej: 3.50">
+                </div>
+                <div class="form-group">
+                    <label for="bebidas-image">Imagen del Producto:</label>
+                    <div class="file-input-wrapper">
+                        <button class="file-input-label">Seleccionar Archivo</button>
+                        <input type="file" id="bebidas-image" accept="image/*">
+                    </div>
+                    <img id="bebidas-preview" class="image-preview" alt="Vista previa">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-admin" id="save-bebidas">Guardar Producto</button>
+                    <button class="btn" id="cancel-bebidas" style="background: #777; margin-left: 10px;">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resto del código HTML permanece igual -->
+    <!-- Pantalla Principal -->
+    <div id="main-screen" class="category-screen active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Todo lo que necesitas, en un solo lugar</h1>
+                <p>Pedí comida, comprá en el supermercado, encargá medicamentos y mucho más con delivery rápido.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <!-- Products Section -->
+            <h2 class="section-title">Productos Destacados</h2>
+            <div class="products-grid" id="products-container">
+                <!-- Los productos se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Pantalla de Perros Calientes -->
+    <div id="perros-screen" class="category-screen">
+        <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1619740455993-9e612b1af08a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="container">
+                <h1>Los Mejores Perros Calientes</h1>
+                <p>Disfruta de nuestras deliciosas combinaciones de salchichas con ingredientes frescos y salsas especiales.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <div class="back-button" id="back-to-main-perros">
+                <i>←</i> Volver a la pantalla principal
+            </div>
+            <h2 class="section-title">Nuestra Selección de Perros</h2>
+            <div class="products-grid" id="perros-container">
+                <!-- Productos de perros se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Pantalla de Hamburguesas -->
+    <div id="hamburguesas-screen" class="category-screen">
+        <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="container">
+                <h1>Las Mejores Hamburguesas</h1>
+                <p>Descubre nuestras jugosas hamburguesas preparadas con ingredientes frescos y de la mejor calidad.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <div class="back-button" id="back-to-main-hamburguesas">
+                <i>←</i> Volver a la pantalla principal
+            </div>
+            <h2 class="section-title">Nuestra Selección de Hamburguesas</h2>
+            <div class="products-grid" id="hamburguesas-container">
+                <!-- Productos de hamburguesas se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Pantalla de Salchipapas -->
+    <div id="salchipapas-screen" class="category-screen">
+        <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="container">
+                <h1>Las Mejores Salchipapas</h1>
+                <p>Disfruta de nuestras deliciosas combinaciones de papas fritas con salchichas y salsas especiales.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <div class="back-button" id="back-to-main-salchipapas">
+                <i>←</i> Volver a la pantalla principal
+            </div>
+            <h2 class="section-title">Nuestra Selección de Salchipapas</h2>
+            <div class="products-grid" id="salchipapas-container">
+                <!-- Productos de salchipapas se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Pantalla de Postres -->
+    <div id="postres-screen" class="category-screen">
+        <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="container">
+                <h1>Los Mejores Postres</h1>
+                <p>Endulza tu día con nuestra selección de postres artesanales preparados con los mejores ingredientes.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <div class="back-button" id="back-to-main-postres">
+                <i>←</i> Volver a la pantalla principal
+            </div>
+            <h2 class="section-title">Nuestra Selección de Postres</h2>
+            <div class="products-grid" id="postres-container">
+                <!-- Productos de postres se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- PANTALLA DE BEBIDAS -->
+    <div id="bebidas-screen" class="category-screen">
+        <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');">
+            <div class="container">
+                <h1>Refrescantes Bebidas</h1>
+                <p>Disfruta de nuestra variedad de bebidas frías y calientes para acompañar tus comidas.</p>
+            </div>
+        </section>
+
+        <main class="container">
+            <div class="back-button" id="back-to-main-bebidas">
+                <i>←</i> Volver a la pantalla principal
+            </div>
+            <h2 class="section-title">Nuestra Selección de Bebidas</h2>
+            <div class="products-grid" id="bebidas-container">
+                <!-- Productos de bebidas se cargarán dinámicamente -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Tu Carrito</h2>
+            <button class="close-cart" id="close-cart">×</button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+        </div>
+        <div class="cart-total" id="cart-total">Total: $0.00</div>
+        <button class="checkout-btn" id="checkout-btn">Finalizar Compra</button>
+    </div>
+
+    <script>
+        // Funcionalidad del carrito, navegación entre pantallas y administración
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos del DOM
+            const cartToggle = document.getElementById('cart-toggle');
+            const closeCart = document.getElementById('close-cart');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartItems = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.getElementById('cart-count');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const categoryLinks = document.querySelectorAll('.category-link');
+            const mainScreen = document.getElementById('main-screen');
+            const perrosScreen = document.getElementById('perros-screen');
+            const hamburguesasScreen = document.getElementById('hamburguesas-screen');
+            const salchipapasScreen = document.getElementById('salchipapas-screen');
+            const postresScreen = document.getElementById('postres-screen');
+            const bebidasScreen = document.getElementById('bebidas-screen');
+            const backToMainPerros = document.getElementById('back-to-main-perros');
+            const backToMainHamburguesas = document.getElementById('back-to-main-hamburguesas');
+            const backToMainSalchipapas = document.getElementById('back-to-main-salchipapas');
+            const backToMainPostres = document.getElementById('back-to-main-postres');
+            const backToMainBebidas = document.getElementById('back-to-main-bebidas');
+            
+            // Elementos de administración
+            const adminToggle = document.getElementById('admin-toggle');
+            const closeAdmin = document.getElementById('close-admin');
+            const adminPanel = document.getElementById('admin-panel');
+            const addProductBtns = document.querySelectorAll('.add-product-btn');
+            
+            // Variables globales
+            let cart = [];
+            let products = {
+                perros: [],
+                hamburguesas: [],
+                salchipapas: [],
+                postres: [],
+                bebidas: []
+            };
+            
+            // Inicializar con algunos productos de ejemplo
+            initializeProducts();
+            
+            // Funciones de inicialización
+            function initializeProducts() {
+                // Productos de perros
+                products.perros = [
+                    { id: '5', name: 'Perro Clásico', description: 'Salchicha, salsa de tomate, mostaza, cebolla y papas fritas.', price: 7.99, img: 'https://images.unsplash.com/photo-1618588507085-c79565432917?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80' },
+                    { id: '6', name: 'Perro Especial', description: 'Salchicha premium, queso, tocino, salsa de la casa y vegetales.', price: 9.99, img: 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80' }
+                ];
+                
+                // Productos de hamburguesas
+                products.hamburguesas = [
+                    { id: '3', name: 'Hamburguesa Clásica', description: 'Carne 100% res, lechuga, tomate, cebolla y salsa especial.', price: 10.99, img: 'https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80' },
+                    { id: '4', name: 'Hamburguesa Doble Queso', description: 'Doble carne, doble queso cheddar, lechuga, tomate y cebolla.', price: 13.99, img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80' }
+                ];
+                
+                // Cargar productos en las pantallas
+                loadAllProducts();
+                updateAdminProductLists();
+            }
+            
+            // Cargar productos en las pantallas
+            function loadAllProducts() {
+                loadProductsToContainer('products-container', getAllProducts());
+                loadProductsToContainer('perros-container', products.perros);
+                loadProductsToContainer('hamburguesas-container', products.hamburguesas);
+                loadProductsToContainer('salchipapas-container', products.salchipapas);
+                loadProductsToContainer('postres-container', products.postres);
+                loadProductsToContainer('bebidas-container', products.bebidas);
+            }
+            
+            // Obtener todos los productos
+            function getAllProducts() {
+                return [
+                    ...products.perros,
+                    ...products.hamburguesas,
+                    ...products.salchipapas,
+                    ...products.postres,
+                    ...products.bebidas
+                ];
+            }
+            
+            // Cargar productos a un contenedor específico
+            function loadProductsToContainer(containerId, productList) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                container.innerHTML = '';
+                
+                productList.forEach(product => {
+                    const productCard = createProductCard(product);
+                    container.appendChild(productCard);
+                });
+                
+                // Agregar eventos a los botones de agregar al carrito
+                attachAddToCartEvents(container);
+            }
+            
+            // Crear tarjeta de producto
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.setAttribute('data-category', getProductCategory(product.id));
+                card.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" class="product-img">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" data-img="${product.img}">Agregar al Carrito</button>
+                    </div>
+                `;
+                return card;
+            }
+            
+            // Obtener categoría del producto por ID
+            function getProductCategory(id) {
+                if (id === '5' || id === '6' || id === '7' || id === '8') return 'perros';
+                if (id === '3' || id === '4') return 'hamburguesas';
+                if (id === '9') return 'salchipapas';
+                if (id === '10') return 'postres';
+                if (id === '11') return 'bebidas';
+                return 'otros';
+            }
+            
+            // Adjuntar eventos a los botones de agregar al carrito
+            function attachAddToCartEvents(container) {
+                const addToCartButtons = container.querySelectorAll('.add-to-cart');
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const name = this.getAttribute('data-name');
+                        const price = parseFloat(this.getAttribute('data-price'));
+                        const img = this.getAttribute('data-img');
+                        
+                        // Verificar si el producto ya está en el carrito
+                        const existingItem = cart.find(item => item.id === id);
+                        
+                        if (existingItem) {
+                            existingItem.quantity += 1;
+                        } else {
+                            cart.push({
+                                id,
+                                name,
+                                price,
+                                img,
+                                quantity: 1
+                            });
+                        }
+                        
+                        updateCart();
+                        cartSidebar.classList.add('active');
+                    });
+                });
+            }
+            
+            // Actualizar listas de productos en el panel de administración
+            function updateAdminProductLists() {
+                updateAdminProductList('perros-list', products.perros);
+                updateAdminProductList('hamburguesas-list', products.hamburguesas);
+                updateAdminProductList('salchipapas-list', products.salchipapas);
+                updateAdminProductList('postres-list', products.postres);
+                updateAdminProductList('bebidas-list', products.bebidas);
+            }
+            
+            // Actualizar lista de productos en una sección específica
+            function updateAdminProductList(listId, productList) {
+                const listContainer = document.getElementById(listId);
+                if (!listContainer) return;
+                
+                listContainer.innerHTML = '';
+                
+                productList.forEach((product, index) => {
+                    const productItem = document.createElement('div');
+                    productItem.className = 'product-item';
+                    productItem.innerHTML = `
+                        <img src="${product.img}" alt="${product.name}">
+                        <div class="product-info">
+                            <div><strong>${product.name}</strong></div>
+                            <div>$${product.price.toFixed(2)}</div>
+                        </div>
+                        <div class="product-actions">
+                            <button class="delete-btn" data-category="${getCategoryFromListId(listId)}" data-index="${index}">Eliminar</button>
+                        </div>
+                    `;
+                    listContainer.appendChild(productItem);
+                });
+                
+                // Agregar eventos a los botones de eliminar
+                attachDeleteEvents();
+            }
+            
+            // Obtener categoría desde el ID de la lista
+            function getCategoryFromListId(listId) {
+                if (listId.includes('perros')) return 'perros';
+                if (listId.includes('hamburguesas')) return 'hamburguesas';
+                if (listId.includes('salchipapas')) return 'salchipapas';
+                if (listId.includes('postres')) return 'postres';
+                if (listId.includes('bebidas')) return 'bebidas';
+                return '';
+            }
+            
+            // Adjuntar eventos a los botones de eliminar
+            function attachDeleteEvents() {
+                const deleteBtns = document.querySelectorAll('.delete-btn');
+                deleteBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const category = this.getAttribute('data-category');
+                        const index = parseInt(this.getAttribute('data-index'));
+                        
+                        if (confirm(`¿Estás seguro de eliminar ${products[category][index].name}?`)) {
+                            products[category].splice(index, 1);
+                            updateAdminProductLists();
+                            loadAllProducts();
+                        }
+                    });
+                });
+            }
+            
+            // Abrir/cerrar panel de administración
+            adminToggle.addEventListener('click', function() {
+                adminPanel.classList.add('active');
+            });
+            
+            closeAdmin.addEventListener('click', function() {
+                adminPanel.classList.remove('active');
+            });
+            
+            // Funcionalidad de los botones "+" para agregar productos
+            addProductBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    showAddProductForm(category);
+                });
+            });
+            
+            // Mostrar formulario para agregar producto
+            function showAddProductForm(category) {
+                // Ocultar todos los formularios primero
+                document.querySelectorAll('.add-product-form').forEach(form => {
+                    form.style.display = 'none';
+                });
+                
+                // Mostrar el formulario correspondiente
+                const form = document.getElementById(`${category}-form`);
+                if (form) {
+                    form.style.display = 'block';
+                    
+                    // Limpiar el formulario
+                    form.querySelector('input[type="text"]').value = '';
+                    form.querySelector('textarea').value = '';
+                    form.querySelector('input[type="number"]').value = '';
+                    form.querySelector('input[type="file"]').value = '';
+                    form.querySelector('.image-preview').style.display = 'none';
+                    
+                    // Agregar vista previa de imagen
+                    const fileInput = form.querySelector('input[type="file"]');
+                    const preview = form.querySelector('.image-preview');
+                    
+                    fileInput.addEventListener('change', function() {
+                        if (this.files && this.files[0]) {
+                            const reader = new FileReader();
+                            reader.onload = function(e) {
+                                preview.src = e.target.result;
+                                preview.classList.add('active');
+                            }
+                            reader.readAsDataURL(this.files[0]);
+                        }
+                    });
+                    
+                    // Botón de guardar
+                    const saveBtn = document.getElementById(`save-${category}`);
+                    saveBtn.onclick = function() {
+                        saveProduct(category);
+                    };
+                    
+                    // Botón de cancelar
+                    const cancelBtn = document.getElementById(`cancel-${category}`);
+                    cancelBtn.onclick = function() {
+                        form.style.display = 'none';
+                    };
+                }
+            }
+            
+            // Guardar producto
+            function saveProduct(category) {
+                const form = document.getElementById(`${category}-form`);
+                const name = form.querySelector('input[type="text"]').value;
+                const description = form.querySelector('textarea').value;
+                const price = parseFloat(form.querySelector('input[type="number"]').value);
+                const fileInput = form.querySelector('input[type="file"]');
+                
+                // Validaciones
+                if (!name || !description || !price) {
+                    alert('Por favor completa todos los campos');
+                    return;
+                }
+                
+                if (price <= 0) {
+                    alert('El precio debe ser mayor a 0');
+                    return;
+                }
+                
+                // Generar ID único
+                const id = 'prod_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                
+                // Manejar la imagen
+                let imageUrl = 'https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'; // Imagen por defecto
+                
+                if (fileInput.files && fileInput.files[0]) {
+                    // En una implementación real, aquí subirías la imagen a un servidor
+                    // Por ahora, usaremos una URL de datos (base64) para demostración
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageUrl = e.target.result;
+                        
+                        // Agregar producto
+                        const newProduct = {
+                            id,
+                            name,
+                            description,
+                            price,
+                            img: imageUrl
+                        };
+                        
+                        products[category].push(newProduct);
+                        
+                        // Actualizar interfaces
+                        updateAdminProductLists();
+                        loadAllProducts();
+                        
+                        // Ocultar formulario
+                        form.style.display = 'none';
+                        
+                        alert('Producto agregado exitosamente');
+                    };
+                    reader.readAsDataURL(fileInput.files[0]);
+                } else {
+                    // Agregar producto sin imagen personalizada
+                    const newProduct = {
+                        id,
+                        name,
+                        description,
+                        price,
+                        img: imageUrl
+                    };
+                    
+                    products[category].push(newProduct);
+                    
+                    // Actualizar interfaces
+                    updateAdminProductLists();
+                    loadAllProducts();
+                    
+                    // Ocultar formulario
+                    form.style.display = 'none';
+                    
+                    alert('Producto agregado exitosamente');
+                }
+            }
+            
+            // Resto del código para carrito y navegación (igual que antes)
+            // ... [El resto del código JavaScript permanece igual]
+            
+            // Abrir/cerrar carrito
+            cartToggle.addEventListener('click', function() {
+                cartSidebar.classList.add('active');
+            });
+            
+            closeCart.addEventListener('click', function() {
+                cartSidebar.classList.remove('active');
+            });
+            
+            // Navegación entre pantallas
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover clase activa de todos los enlaces
+                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Agregar clase activa al enlace clickeado
+                    this.classList.add('active');
+                    
+                    const category = this.getAttribute('data-category');
+                    
+                    // Mostrar pantalla según la categoría seleccionada
+                    if (category === 'perros') {
+                        mainScreen.classList.remove('active');
+                        hamburguesasScreen.classList.remove('active');
+                        salchipapasScreen.classList.remove('active');
+                        postresScreen.classList.remove('active');
+                        bebidasScreen.classList.remove('active');
+                        perrosScreen.classList.add('active');
+                    } else if (category === 'hamburguesas') {
+                        mainScreen.classList.remove('active');
+                        perrosScreen.classList.remove('active');
+                        salchipapasScreen.classList.remove('active');
+                        postresScreen.classList.remove('active');
+                        bebidasScreen.classList.remove('active');
+                        hamburguesasScreen.classList.add('active');
+                    } else if (category === 'salchipapas') {
+                        mainScreen.classList.remove('active');
+                        perrosScreen.classList.remove('active');
+                        hamburguesasScreen.classList.remove('active');
+                        postresScreen.classList.remove('active');
+                        bebidasScreen.classList.remove('active');
+                        salchipapasScreen.classList.add('active');
+                    } else if (category === 'postres') {
+                        mainScreen.classList.remove('active');
+                        perrosScreen.classList.remove('active');
+                        hamburguesasScreen.classList.remove('active');
+                        salchipapasScreen.classList.remove('active');
+                        bebidasScreen.classList.remove('active');
+                        postresScreen.classList.add('active');
+                    } else if (category === 'bebidas') {
+                        mainScreen.classList.remove('active');
+                        perrosScreen.classList.remove('active');
+                        hamburguesasScreen.classList.remove('active');
+                        salchipapasScreen.classList.remove('active');
+                        postresScreen.classList.remove('active');
+                        bebidasScreen.classList.add('active');
+                    } else {
+                        perrosScreen.classList.remove('active');
+                        hamburguesasScreen.classList.remove('active');
+                        salchipapasScreen.classList.remove('active');
+                        postresScreen.classList.remove('active');
+                        bebidasScreen.classList.remove('active');
+                        mainScreen.classList.add('active');
+                        
+                        // Filtrar productos en la pantalla principal
+                        const productCards = document.querySelectorAll('#products-container .product-card');
+                        productCards.forEach(card => {
+                            if (category === 'all' || card.getAttribute('data-category') === category) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Volver a la pantalla principal desde perros
+            backToMainPerros.addEventListener('click', function() {
+                perrosScreen.classList.remove('active');
+                mainScreen.classList.add('active');
+                
+                // Actualizar navegación
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.category-link[data-category="all"]').classList.add('active');
+            });
+            
+            // Volver a la pantalla principal desde hamburguesas
+            backToMainHamburguesas.addEventListener('click', function() {
+                hamburguesasScreen.classList.remove('active');
+                mainScreen.classList.add('active');
+                
+                // Actualizar navegación
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.category-link[data-category="all"]').classList.add('active');
+            });
+            
+            // Volver a la pantalla principal desde salchipapas
+            backToMainSalchipapas.addEventListener('click', function() {
+                salchipapasScreen.classList.remove('active');
+                mainScreen.classList.add('active');
+                
+                // Actualizar navegación
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.category-link[data-category="all"]').classList.add('active');
+            });
+            
+            // Volver a la pantalla principal desde postres
+            backToMainPostres.addEventListener('click', function() {
+                postresScreen.classList.remove('active');
+                mainScreen.classList.add('active');
+                
+                // Actualizar navegación
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.category-link[data-category="all"]').classList.add('active');
+            });
+            
+            // Volver a la pantalla principal desde bebidas
+            backToMainBebidas.addEventListener('click', function() {
+                bebidasScreen.classList.remove('active');
+                mainScreen.classList.add('active');
+                
+                // Actualizar navegación
+                categoryLinks.forEach(l => l.classList.remove('active'));
+                document.querySelector('.category-link[data-category="all"]').classList.add('active');
+            });
+            
+            // Actualizar carrito
+            function updateCart() {
+                cartItems.innerHTML = '';
+                let total = 0;
+                let count = 0;
+                
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    count += item.quantity;
+                    
+                    const cartItemElement = document.createElement('div');
+                    cartItemElement.classList.add('cart-item');
+                    cartItemElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                            <div class="cart-item-quantity">
+                                <button class="quantity-btn decrease" data-id="${item.id}">-</button>
+                                <span class="quantity">${item.quantity}</span>
+                                <button class="quantity-btn increase" data-id="${item.id}">+</button>
+                                <button class="remove-item" data-id="${item.id}">🗑️</button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    cartItems.appendChild(cartItemElement);
+                });
+                
+                cartTotal.textContent = `Total: $${total.toFixed(2)}`;
+                cartCount.textContent = count;
+                
+                // Agregar eventos a los botones de cantidad
+                document.querySelectorAll('.decrease').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        
+                        if (item.quantity > 1) {
+                            item.quantity -= 1;
+                        } else {
+                            cart = cart.filter(item => item.id !== id);
+                        }
+                        
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.increase').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        const item = cart.find(item => item.id === id);
+                        item.quantity += 1;
+                        updateCart();
+                    });
+                });
+                
+                document.querySelectorAll('.remove-item').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        cart = cart.filter(item => item.id !== id);
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Finalizar compra
+            checkoutBtn.addEventListener('click', function() {
+                if (cart.length === 0) {
+                    alert('Tu carrito está vacío');
+                    return;
+                }
+                
+                // Crear mensaje con los productos del carrito
+                let message = "Hola Amigo(a) genera tu pago. Mi pedido es:%0A%0A";
+                
+                cart.forEach(item => {
+                    message += `- ${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}%0A`;
+                });
+                
+                const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                message += `%0ATotal: $${total.toFixed(2)}`;
+                
+                // Redirigir a WhatsApp
+                window.location.href = `https://wa.me/+573196968646?text=${message}`;
+                
+                // Limpiar carrito
+                cart = [];
+                updateCart();
+                cartSidebar.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

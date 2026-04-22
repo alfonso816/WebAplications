@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebAplications - Desarrollo de Aplicaciones Web</title>
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #D4AF37;
+            --primary-dark: #AA8C2C;
+            --secondary: #F3F4F6;
+            --text-dark: #1F2937;
+            --text-light: #6B7280;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .logo img {
+            height: 45px;
+            width: 45px;
+            object-fit: cover;
+            /* Ya no necesitamos border-radius ni mix-blend-mode porque la imagen ya viene redonda y sin fondo */
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .price-badge {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        /* Objetivo Section (Nuevo) */
+        .objective-section {
+            background-color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .objective-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .objective-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .objective-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .objective-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .objective-text strong {
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features {
+            max-width: 1000px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            transition: color 0.3s ease;
+        }
+
+        .card.locked i {
+            color: #94a3b8;
+        }
+
+        .card.locked {
+            background-color: #f8fafc;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .card.active.locked {
+            background-color: white;
+            border: 1px solid transparent;
+        }
+        
+        .card.active.locked i {
+            color: var(--primary);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            color: var(--text-dark);
+        }
+
+        .card-details {
+            display: none;
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-top: 0.5rem;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .card.active .card-details {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Portfolio Scroll Section */
+        .portfolio-section {
+            padding: 4rem 2rem;
+            background-color: white;
+            text-align: center;
+        }
+
+        .portfolio-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .portfolio-scroll {
+            display: flex;
+            overflow: hidden;
+            gap: 2rem;
+            padding: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: 2rem;
+            animation: scroll 20s linear infinite;
+            width: max-content;
+        }
+
+        .portfolio-scroll:hover .carousel-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-50% - 1rem));
+            }
+        }
+
+        .portfolio-item {
+            width: 368px;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            background: #f8fafc;
+            flex-shrink: 0;
+            border: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 1250px) {
+            .portfolio-item {
+                width: calc((100vw - 6rem - 4rem) / 3);
+            }
+        }
+        @media (max-width: 900px) {
+            .portfolio-item {
+                width: calc((100vw - 6rem - 2rem) / 2);
+            }
+        }
+        @media (max-width: 600px) {
+            .portfolio-item {
+                width: calc(100vw - 6rem);
+            }
+        }
+
+        .portfolio-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+        }
+
+        .portfolio-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: white;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .portfolio-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .portfolio-info a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            padding: 0.5rem;
+            box-shadow: none;
+        }
+
+        .portfolio-info a:hover {
+            transform: scale(1.1) translateY(-2px);
+            color: var(--primary);
+            background: transparent;
+            box-shadow: none;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        .cta-btn {
+            background-color: var(--primary);
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Animación para el botón del contador */
+        .scale-95 {
+            transform: scale(0.95);
+        }
+        #botonComenzar {
+            transition: transform 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="logo_redondo.png" alt="WebAplications">
+                <span style="background: linear-gradient(90deg, #1F2937, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WebAplications</span>
+            </a>
+            <div class="nav-links">
+                <a href="#objetivo">Objetivo</a>
+                <a href="#contacto">Contáctanos</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <h1>Impulsa tu Negocio con WebAplications</h1>
+        <p>Somos un equipo especializado en la venta y desarrollo de aplicaciones web de alta calidad para llevar tu negocio al siguiente nivel.</p>
+        <div class="price-badge" id="priceBadge">
+            Tu Aplicación Web por $4.000.000 COL
+        </div>
+    </section>
+
+    <!-- Sección del Objetivo -->
+    <section id="objetivo" class="objective-section">
+        <div class="objective-container">
+            <div class="objective-icon">
+                <i class="fa-solid fa-bullseye"></i>
+            </div>
+            <div class="objective-title">Nuestro Objetivo</div>
+            <div class="objective-text">
+                En <strong>WebAplications</strong> creemos que la tecnología no debe ser un lujo, sino una herramienta al alcance de quienes se atreven a crecer; 
+                de manera que tu negocio <strong>venda más</strong>, atendiendo <strong>mejor</strong> y de manera <strong>automática</strong>, 
+                gracias al poder de una aplicación web hecha a tu medida.
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>Todo lo que incluye tu Aplicación Web</h2>
+        
+        <div class="grid">
+            <div class="card">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <h3>Carrito de Compras</h3>
+                <div class="card-details">Permite a tus clientes seleccionar, acumular y comprar productos de forma rápida, segura y automatizada en cualquier momento del día.</div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-gears"></i>
+                <h3>Sistema de Administración</h3>
+                <div class="card-details">Panel de control privado e intuitivo para gestionar tus ventas, clientes, pedidos e inventario sin depender de nadie.</div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-tags"></i>
+                <h3>Categorías</h3>
+                <div class="card-details">Clasifica y organiza tus productos en diferentes secciones para que tus clientes encuentren exactamente lo que buscan en segundos.</div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-box-open"></i>
+                <h3>Gestión de Productos</h3>
+                <div class="card-details">Sube fotos, establece precios, agrega descripciones y controla el stock de cada artículo disponible en tu tienda.</div>
+            </div>
+            
+            <div class="card">
+                <i class="fa-solid fa-palette"></i>
+                <h3>Cambio de Color de Pǭgina</h3>
+                <div class="card-details">Personaliza los colores principales de tu sitio web en cualquier momento para que siempre coincida con la identidad visual de tu marca.</div>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-copyright"></i>
+                <h3>Construcción de Marca</h3>
+                <div class="card-details">Establece y consolida la identidad de tu negocio en línea para generar confianza y reconocimiento entre tus clientes.</div>
+            </div>
+
+            <div class="card">
+                <i class="fa-solid fa-file-pdf"></i>
+                <h3>Recibos en PDF</h3>
+                <div class="card-details">Genera y descarga automáticamente recibos de compra en formato PDF para ti y tus clientes al finalizar cada transacción.</div>
+            </div>
+
+            <!-- Tarjeta Agente de Whatsapp (Precio adicional: +2.000.000) -->
+            <div class="card locked" data-service="whatsapp" data-price="2000000">
+                <i class="fa-solid fa-lock"></i>
+                <h3>Agente de Whatsapp</h3>
+                <p style="font-size:0.85rem; color:#64748b;">(Adicional)</p>
+                <div class="card-details">El bot de WhatsApp atenderá a los clientes de forma rápida y efectiva, respondiendo preguntas frecuentes y tomando pedidos 24/7.</div>
+            </div>
+            
+            <!-- Tarjeta Campaña publicitaria de Meta (Precio adicional: +3.000.000) -->
+            <div class="card locked" data-service="meta" data-price="3000000">
+                <i class="fa-solid fa-lock"></i>
+                <h3>Campaña publicitaria de Meta</h3>
+                <p style="font-size:0.85rem; color:#64748b;">(Adicional)</p>
+                <div class="card-details">No solo creamos tu app, también la hacemos visible. Manejo y optimización de campañas en Meta Ads, ya sea desde nuestra cuenta profesional o desde la tuya.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="portfolio-section">
+        <h2>Mira Nuestras Aplicaciones</h2>
+        <p style="color: var(--text-light); margin-bottom: 2rem;">Desliza para ver ejemplos de nuestro trabajo en vivo.</p>
+        
+        <div class="portfolio-scroll">
+            <div class="carousel-track">
+                <div class="portfolio-item">
+                    <iframe src="https://stilez2.vercel.app" title="Stilez App"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Stilez App</h3>
+                        <a href="https://stilez2.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <iframe src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Tienda Alpha</h3>
+                        <a href="https://tienda-three-alpha.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <iframe src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Numbers Software</h3>
+                        <a href="https://numbers-software.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <iframe src="https://stilez2.vercel.app" title="Stilez App"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Stilez App</h3>
+                        <a href="https://stilez2.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <iframe src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Tienda Alpha</h3>
+                        <a href="https://tienda-three-alpha.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+ <div class="portfolio-item">
+                    <iframe src="https://prevenir-web.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Tienda Alpha</h3>
+                        <a href="https://prevenir-web.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="portfolio-item">
+                    <iframe src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
+                    <div class="portfolio-info">
+                        <h3>Numbers Software</h3>
+                        <a href="https://numbers-software.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== SECCIÓN CONTADOR DE CUPOS ====== -->
+    <section class="counter-section" style="background: linear-gradient(135deg, #374151 0%, #111827 100%); padding: 3rem 2rem; text-align: center; margin: 2rem auto; border-radius: 0; max-width: 100%;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <!-- Icono de reloj -->
+            <div style="font-size: 3rem; color: #fbbf24; margin-bottom: 1rem;">
+                <i class="fa-solid fa-hourglass-half"></i>
+            </div>
+            
+            <!-- Título llamativo -->
+            <h2 style="color: white; font-size: 1.8rem; margin-bottom: 1rem; font-weight: bold;">
+                ¡Oferta Exclusiva!
+            </h2>
+            
+            <!-- Texto de motivación -->
+            <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                Estamos aceptando un número limitado de proyectos este mes para garantizar calidad y atención personalizada.
+            </p>
+            
+            <!-- CONTADOR DE CUPOS DINÁMICO -->
+            <div style="background-color: rgba(255,255,255,0.1); border-radius: 60px; padding: 1rem 2rem; display: inline-block; margin-bottom: 1.5rem;">
+                <span id="textoCupos" style="font-size: 1.4rem; font-weight: bold; color: #fbbf24;">⏳ Cupo limitado: 6 disponibles este mes</span>
+            </div>
+            
+            <!-- Botón que al hacer clic disminuye cupos y redirige a WhatsApp -->
+            <div>
+                <a href="https://wa.me/573123456789?text=Hola%2C%20quiero%20comenzar%20mi%20aplicaci%C3%B3n%20web%20con%20AppsMovile" 
+                   id="botonComenzar"
+                   target="_blank"
+                   onclick="disminuirCupos()"
+                   style="display: inline-block; background-color: #25D366; color: white; text-decoration: none; padding: 1rem 2.5rem; border-radius: 50px; font-weight: bold; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);">
+                    <i class="fa-brands fa-whatsapp" style="margin-right: 8px;"></i>
+                    Comenzar ahora
+                </a>
+            </div>
+            
+            <!-- Pequeño texto adicional -->
+            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 1.5rem;">
+                *Al hacer clic, confirmas tu interés y apartas tu cupo automáticamente.
+            </p>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <p>&copy; 2025 WebAplications - Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            const priceBadge = document.getElementById('priceBadge');
+            
+            // Precio base
+            const BASE_PRICE = 4000000;
+            
+            // Objeto para llevar el estado de los servicios adicionales
+            let selectedServices = {
+                whatsapp: false,
+                meta: false
+            };
+            
+            // Función para formatear el precio en pesos colombianos
+            function formatPrice(price) {
+                return new Intl.NumberFormat('es-CO', {
+                    style: 'currency',
+                    currency: 'COP',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(price).replace('COP', 'COL');
+            }
+            
+            // Función para actualizar el precio mostrado
+            function updatePrice() {
+                let additionalPrice = 0;
+                if (selectedServices.whatsapp) additionalPrice += 2000000; // +2M para WhatsApp
+                if (selectedServices.meta) additionalPrice += 3000000;    // +3M para Meta
+                
+                const totalPrice = BASE_PRICE + additionalPrice;
+                priceBadge.innerHTML = `Tu Aplicación Web por ${formatPrice(totalPrice)}`;
+                
+                // Pequeña animación de feedback visual
+                priceBadge.style.transform = 'scale(1.02)';
+                setTimeout(() => {
+                    priceBadge.style.transform = 'scale(1)';
+                }, 200);
+            }
+            
+            // Función para actualizar el estado visual de una tarjeta y su precio
+            function toggleCard(card, isActive) {
+                const lockIcon = card.querySelector('i.fa-lock, i.fa-lock-open');
+                const serviceType = card.dataset.service;
+                
+                if (isActive) {
+                    card.classList.add('active');
+                    if (lockIcon) {
+                        lockIcon.classList.remove('fa-lock');
+                        lockIcon.classList.add('fa-lock-open');
+                    }
+                    if (serviceType === 'whatsapp') selectedServices.whatsapp = true;
+                    if (serviceType === 'meta') selectedServices.meta = true;
+                } else {
+                    card.classList.remove('active');
+                    if (lockIcon) {
+                        lockIcon.classList.remove('fa-lock-open');
+                        lockIcon.classList.add('fa-lock');
+                    }
+                    if (serviceType === 'whatsapp') selectedServices.whatsapp = false;
+                    if (serviceType === 'meta') selectedServices.meta = false;
+                }
+                updatePrice();
+            }
+            
+            // Evento de clic para las tarjetas con servicios adicionales (locked)
+            cards.forEach(card => {
+                // Solo las tarjetas con data-service (adicionales) manejan precio
+                const hasService = card.dataset.service !== undefined;
+                
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    // Si la tarjeta ya está activa, la desactivamos
+                    if (card.classList.contains('active')) {
+                        toggleCard(card, false);
+                    } 
+                    // Si no está activa, la activamos
+                    else {
+                        toggleCard(card, true);
+                    }
+                });
+            });
+            
+            // Inicializar precio base
+            updatePrice();
+        });
+
+        // Inicializar contador de cupos
+        let cuposDisponibles = 6;
+        const textoCupos = document.getElementById('textoCupos');
+        
+        // Actualizar texto inicial
+        function actualizarTextoContador() {
+            if (textoCupos) {
+                textoCupos.textContent = `⏳ Cupo limitado: ${cuposDisponibles} ${cuposDisponibles === 1 ? 'disponible' : 'disponibles'} este mes`;
+            }
+        }
+        
+        // Función para disminuir cupos (se llama al hacer clic)
+        function disminuirCupos() {
+            // Disminuir cupos
+            cuposDisponibles--;
+            
+            // Si llega a 0, reiniciar a 6
+            if (cuposDisponibles === 0) {
+                cuposDisponibles = 6;
+            }
+            
+            // Actualizar el texto
+            actualizarTextoContador();
+            
+            // Pequeña animación de feedback
+            const boton = document.getElementById('botonComenzar');
+            if (boton) {
+                boton.classList.add('scale-95');
+                setTimeout(() => {
+                    boton.classList.remove('scale-95');
+                }, 100);
+            }
+            
+            // El enlace a WhatsApp se abre automáticamente por el href
+            return true;
+        }
+        
+        // Asegurar que el texto inicial sea correcto
+        actualizarTextoContador();
+    </script>
+</body>
+</html>

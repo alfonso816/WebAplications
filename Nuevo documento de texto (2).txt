@@ -1,0 +1,16 @@
+https://stilez2.vercel.app
+
+https://tienda-three-alpha.vercel.app
+
+https://numbers-software.vercel.app
+
+en todo lo que incluye tu aplicacion Web
+quiero que al seleccionar carrito d compras,aparesca un texto explicando que es carrito de compras
+lo mismo en sistema de administracion,categorias,productos,cambio color de pagina
+al presionar bot de whatsapp el candado se desblquea y aparecera el texto explicando que es lo que hace el bot de wasa
+el bot de whatsapp atendera a los clientes de forma rapida y efectiva y campaña publicitaria
+
+
+
+que contactanos no sea un boton sino una palabra 
+y al lado de contactanos pon la palagra objetivo
