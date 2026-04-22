@@ -658,9 +658,10 @@
 
         .footer-row {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             gap: 1rem;
             flex-wrap: wrap;
+            text-align: center;
         }
 
         @media (max-width: 960px) {
@@ -965,19 +966,31 @@
             </div>
         </section>
 
-        <section class="cta reveal" id="contacto">
-            <div class="container">
-                <div class="cta-box">
-                    <div>
-                        <h2>Haz que tu negocio se vea al nivel que merece.</h2>
-                        <p>Si ya tienes una idea, una tienda, una marca o un servicio que quieras vender mejor en internet, podemos convertirlo en una pagina web lista para impresionar y convertir.</p>
-                    </div>
-                    <div class="cta-actions">
-                        <a class="btn btn-primary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20cotizar%20mi%20pagina%20web%20con%20WebAplications" target="_blank" rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp"></i>
-                            Pedir cotizacion
-                        </a>
-                    </div>
+        <section class="counter-section reveal" id="contacto" style="background: linear-gradient(135deg, #374151 0%, #111827 100%); padding: 3rem 2rem; text-align: center; margin: 2rem auto 0; border-radius: 0; max-width: 100%;">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="font-size: 3rem; color: #fbbf24; margin-bottom: 1rem;">
+                    <i class="fa-solid fa-hourglass-half"></i>
+                </div>
+                <h2 style="color: white; font-size: 1.8rem; margin-bottom: 1rem; font-weight: bold;">
+                    !Oferta Exclusiva!
+                </h2>
+                <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    Estamos aceptando un numero limitado de proyectos este mes para garantizar calidad y atencion personalizada.
+                </p>
+                <div style="background-color: rgba(255,255,255,0.1); border-radius: 60px; padding: 1rem 2rem; display: inline-block; margin-bottom: 1.5rem;">
+                    <span id="textoCupos" style="font-size: 1.4rem; font-weight: bold; color: #fbbf24;">Cupo limitado: 6 disponibles este mes</span>
+                </div>
+                <div>
+                    <a href="https://wa.me/573150946019?text=Hola%2C%20quiero%20comenzar%20mi%20aplicacion%20web%20con%20WebAplications"
+                        id="botonComenzar"
+                        class="btn btn-primary"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onclick="disminuirCupos()"
+                        style="padding: 1rem 2.5rem; border-radius: 50px; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        Comenzar ahora
+                    </a>
                 </div>
             </div>
         </section>
@@ -986,7 +999,6 @@
     <footer class="site-footer">
         <div class="container footer-row">
             <span>&copy; 2026 WebAplications. Desarrollo de aplicaciones web.</span>
-            <span>Hecho para mostrar, vender y crecer.</span>
         </div>
     </footer>
 
@@ -1023,6 +1035,28 @@
                 planToggleIcon.className = isActive ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock';
             });
         }
+
+        let cuposDisponibles = 6;
+        const textoCupos = document.getElementById('textoCupos');
+
+        function actualizarTextoContador() {
+            if (textoCupos) {
+                textoCupos.textContent = `Cupo limitado: ${cuposDisponibles} ${cuposDisponibles === 1 ? 'disponible' : 'disponibles'} este mes`;
+            }
+        }
+
+        function disminuirCupos() {
+            cuposDisponibles--;
+
+            if (cuposDisponibles === 0) {
+                cuposDisponibles = 6;
+            }
+
+            actualizarTextoContador();
+            return true;
+        }
+
+        actualizarTextoContador();
     </script>
 </body>
 </html>
