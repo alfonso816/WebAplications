@@ -263,11 +263,10 @@
         }
 
         .plan-toggle {
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 1rem;
+            gap: 0.65rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
             background: rgba(212, 175, 55, 0.08);
             border-radius: 20px;
@@ -288,30 +287,23 @@
         }
 
         .plan-toggle strong {
-            display: block;
             color: #ffffff;
             font-size: 1.15rem;
             line-height: 1.2;
         }
 
         .plan-toggle-icon {
-            position: absolute;
-            left: 1rem;
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: rgba(17, 24, 39, 0.36);
             color: var(--gold);
             font-size: 1.15rem;
             flex-shrink: 0;
         }
 
         .plan-toggle-copy {
-            flex: 1;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
         }
 
         .stats {
@@ -776,10 +768,10 @@
                     </ul>
 
                     <button class="plan-toggle" id="planToggle" type="button" aria-pressed="false">
-                        <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="planToggleIcon"></i></span>
                         <span class="plan-toggle-copy">
-                            <strong>Segmentacion de Meta</strong>
+                            <strong>Segmentacion por Meta</strong>
                         </span>
+                        <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="planToggleIcon"></i></span>
                     </button>
                 </aside>
             </div>
