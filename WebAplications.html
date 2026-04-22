@@ -3,734 +3,986 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WebAplications - Desarrollo de Aplicaciones Web</title>
-    <!-- FontAwesome para iconos -->
+    <title>WebAplications | Aplicaciones web para vender mas</title>
+    <meta name="description" content="Creamos aplicaciones web modernas para negocios que quieren vender mas, automatizar procesos y verse profesionales en internet.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #D4AF37;
-            --primary-dark: #AA8C2C;
-            --secondary: #F3F4F6;
-            --text-dark: #1F2937;
-            --text-light: #6B7280;
+            --bg: #09111f;
+            --bg-soft: #101b2d;
+            --panel: rgba(15, 23, 42, 0.82);
+            --line: rgba(255, 255, 255, 0.12);
+            --text: #f8fafc;
+            --muted: #cbd5e1;
+            --gold: #d4af37;
+            --gold-dark: #a88417;
+            --green: #25d366;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background-color: var(--secondary);
-            color: var(--text-dark);
+            font-family: "Inter", sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(212, 175, 55, 0.18), transparent 24%),
+                radial-gradient(circle at 85% 15%, rgba(37, 211, 102, 0.12), transparent 18%),
+                linear-gradient(180deg, #08101c 0%, #0d1728 45%, #09111f 100%);
             line-height: 1.6;
         }
 
-        /* Navbar */
-        header {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
+        a {
+            color: inherit;
+            text-decoration: none;
         }
 
-        .nav-container {
-            max-width: 1200px;
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .container {
+            width: min(1120px, calc(100% - 2rem));
             margin: 0 auto;
-            padding: 1rem 2rem;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            backdrop-filter: blur(18px);
+            background: rgba(8, 16, 28, 0.72);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            min-height: 78px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 1rem;
         }
 
-        .logo {
-            display: flex;
+        .brand {
+            display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 1.6rem;
+            gap: 0.85rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.03em;
+            font-size: 1.2rem;
         }
 
-        .logo img {
-            height: 45px;
-            width: 45px;
+        .brand img {
+            width: 48px;
+            height: 48px;
             object-fit: cover;
-            /* Ya no necesitamos border-radius ni mix-blend-mode porque la imagen ya viene redonda y sin fondo */
-            transition: transform 0.3s ease;
         }
 
-        .logo:hover img {
-            transform: scale(1.05);
+        .brand span {
+            background: linear-gradient(90deg, #ffffff 0%, #f4d97a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
             align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: color 0.3s;
+            gap: 1.4rem;
+            color: var(--muted);
+            font-size: 0.95rem;
         }
 
         .nav-links a:hover {
-            color: var(--primary);
+            color: var(--gold);
         }
 
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            background: linear-gradient(135deg, #F3F4F6 0%, #E5E7EB 100%);
-            padding: 6rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--text-dark);
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
-        }
-
-        .price-badge {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            font-size: 1.5rem;
-            font-weight: bold;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        /* Objetivo Section (Nuevo) */
-        .objective-section {
-            background-color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .objective-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .objective-icon {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .objective-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-            color: var(--text-dark);
-        }
-
-        .objective-text {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            color: var(--text-light);
-        }
-
-        .objective-text strong {
-            color: var(--primary);
-        }
-
-        /* Features Section */
-        .features {
-            max-width: 1000px;
-            margin: 4rem auto;
-            padding: 0 2rem;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 2.2rem;
-            margin-bottom: 3rem;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 1rem;
-            cursor: pointer;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .card i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            transition: color 0.3s ease;
-        }
-
-        .card.locked i {
-            color: #94a3b8;
-        }
-
-        .card.locked {
-            background-color: #f8fafc;
-            border: 1px dashed #cbd5e1;
-        }
-
-        .card.active.locked {
-            background-color: white;
-            border: 1px solid transparent;
-        }
-        
-        .card.active.locked i {
-            color: var(--primary);
-        }
-
-        .card h3 {
-            font-size: 1.2rem;
-            color: var(--text-dark);
-        }
-
-        .card-details {
-            display: none;
-            font-size: 0.95rem;
-            color: var(--text-light);
-            margin-top: 0.5rem;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .card.active .card-details {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Portfolio Scroll Section */
-        .portfolio-section {
-            padding: 4rem 2rem;
-            background-color: white;
-            text-align: center;
-        }
-
-        .portfolio-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .portfolio-scroll {
-            display: flex;
-            overflow: hidden;
-            gap: 2rem;
-            padding: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .carousel-track {
-            display: flex;
-            gap: 2rem;
-            animation: scroll 20s linear infinite;
-            width: max-content;
-        }
-
-        .portfolio-scroll:hover .carousel-track {
-            animation-play-state: paused;
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-50% - 1rem));
-            }
-        }
-
-        .portfolio-item {
-            width: 368px;
-            height: 500px;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            position: relative;
-            background: #f8fafc;
-            flex-shrink: 0;
-            border: 1px solid #e2e8f0;
-        }
-
-        @media (max-width: 1250px) {
-            .portfolio-item {
-                width: calc((100vw - 6rem - 4rem) / 3);
-            }
-        }
-        @media (max-width: 900px) {
-            .portfolio-item {
-                width: calc((100vw - 6rem - 2rem) / 2);
-            }
-        }
-        @media (max-width: 600px) {
-            .portfolio-item {
-                width: calc(100vw - 6rem);
-            }
-        }
-
-        .portfolio-item iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            pointer-events: none;
-        }
-
-        .portfolio-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            padding: 1.5rem;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: white;
-            text-align: left;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .portfolio-info h3 {
-            margin: 0;
-            font-size: 1.2rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .portfolio-info a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: transparent;
-            padding: 0.5rem;
-            box-shadow: none;
+            gap: 0.65rem;
+            border-radius: 999px;
+            padding: 0.95rem 1.35rem;
+            font-weight: 700;
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
         }
 
-        .portfolio-info a:hover {
-            transform: scale(1.1) translateY(-2px);
-            color: var(--primary);
-            background: transparent;
-            box-shadow: none;
+        .btn:hover {
+            transform: translateY(-2px);
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--text-dark);
-            color: white;
-            text-align: center;
+        .float-up {
+            animation: floatUp 4.8s ease-in-out infinite;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, #f1d16d 100%);
+            color: #111827;
+            box-shadow: 0 14px 30px rgba(212, 175, 55, 0.28);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+        }
+
+        .hero {
+            padding: 5.5rem 0 4rem;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            background: rgba(212, 175, 55, 0.08);
+            color: #f5dd87;
+            border-radius: 999px;
+            padding: 0.45rem 0.85rem;
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.6rem, 6vw, 5rem);
+            line-height: 0.95;
+            letter-spacing: -0.06em;
+            margin-bottom: 1.2rem;
+            max-width: 11ch;
+        }
+
+        .hero h1 strong {
+            color: var(--gold);
+        }
+
+        .hero p {
+            font-size: 1.08rem;
+            color: var(--muted);
+            max-width: 60ch;
+            margin-bottom: 1.7rem;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-points {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 1.4rem;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .hero-points span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .hero-card {
+            background: linear-gradient(180deg, rgba(16, 27, 45, 0.95), rgba(8, 16, 28, 0.95));
+            border: 1px solid var(--line);
+            border-radius: 28px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+            animation: floatCard 7s ease-in-out infinite;
+        }
+
+        .hero-card::before {
+            content: "";
+            position: absolute;
+            inset: auto -20% -25% auto;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3), transparent 68%);
+        }
+
+        .mini-label {
+            color: #f5dd87;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 0.9rem;
+        }
+
+        .offer-price {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .offer-note {
+            color: var(--muted);
+            margin-bottom: 1.4rem;
+        }
+
+        .offer-list {
+            display: grid;
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .offer-list li {
+            list-style: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            color: var(--muted);
+        }
+
+        .offer-list i {
+            color: var(--green);
+            margin-top: 0.2rem;
+        }
+
+        .wa-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            border: 1px solid rgba(37, 211, 102, 0.25);
+            background: rgba(37, 211, 102, 0.08);
+            border-radius: 20px;
+            padding: 1rem 1.1rem;
+        }
+
+        .wa-box strong {
+            display: block;
+        }
+
+        .wa-box small {
+            color: #c7f7d6;
+        }
+
+        .stats {
+            padding: 1rem 0 4rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 1.35rem;
+            transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        }
+
+        .stat:hover {
+            transform: translateY(-6px);
+            border-color: rgba(212, 175, 55, 0.24);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 1.7rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat span {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        section {
+            padding: 4rem 0;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-head h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1;
+            letter-spacing: -0.05em;
+            margin-bottom: 0.65rem;
+        }
+
+        .section-head p {
+            color: var(--muted);
+            max-width: 58ch;
+        }
+
+        .service-grid,
+        .portfolio-grid,
+        .steps-grid {
+            display: grid;
+            gap: 1.15rem;
+        }
+
+        .service-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .portfolio-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .steps-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 1.4rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(212, 175, 55, 0.28);
+            background: rgba(15, 23, 42, 0.94);
+            box-shadow: 0 28px 70px rgba(0, 0, 0, 0.42);
+        }
+
+        .service-icon,
+        .step-number {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            background: rgba(212, 175, 55, 0.12);
+            color: var(--gold);
+            font-size: 1.3rem;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .card p {
+            color: var(--muted);
+        }
+
+        .portfolio-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .preview {
+            min-height: 220px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            background: linear-gradient(135deg, #17243a 0%, #0b1220 100%);
+            display: grid;
+            place-items: center;
+            position: relative;
+            transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .portfolio-card:hover .preview {
+            transform: scale(1.02);
+            border-color: rgba(212, 175, 55, 0.35);
+        }
+
+        .preview iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            pointer-events: none;
+        }
+
+        .portfolio-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .portfolio-tag {
+            display: inline-flex;
+            border: 1px solid rgba(212, 175, 55, 0.28);
+            color: #f5dd87;
+            border-radius: 999px;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.82rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .portfolio-link {
+            color: var(--gold);
+            font-weight: 700;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .portfolio-link:hover {
+            color: #f7de86;
+            transform: translateX(2px);
+        }
+
+        .process-band {
+            margin-top: 2rem;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 28px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .process-band p {
+            color: var(--muted);
+        }
+
+        .pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .pill-list span {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 0.65rem 0.9rem;
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text);
+            font-size: 0.92rem;
+        }
+
+        .cta {
+            padding-bottom: 5rem;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, #d4af37 0%, #f0d677 100%);
+            color: #111827;
+            border-radius: 32px;
             padding: 2rem;
-            margin-top: 4rem;
-        }
-        
-        .cta-btn {
-            background-color: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background 0.3s;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.5rem;
+            align-items: center;
         }
 
-        .cta-btn:hover {
-            background-color: var(--primary-dark);
+        .cta-box h2 {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 0.98;
+            letter-spacing: -0.05em;
+            margin-bottom: 0.8rem;
         }
 
-        /* Animación para el botón del contador */
-        .scale-95 {
-            transform: scale(0.95);
+        .cta-box p {
+            max-width: 55ch;
         }
-        #botonComenzar {
-            transition: transform 0.1s ease;
+
+        .cta-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.9rem;
+            justify-content: flex-end;
+        }
+
+        .cta-box .btn-primary {
+            background: #111827;
+            color: #ffffff;
+            box-shadow: none;
+        }
+
+        .cta-box .btn-secondary {
+            background: rgba(17, 24, 39, 0.06);
+            border-color: rgba(17, 24, 39, 0.18);
+            color: #111827;
+        }
+
+        .site-footer {
+            padding: 1.5rem 0 2.5rem;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(34px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            transition-delay: var(--delay, 0s);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hero-copy > * {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: riseIn 0.8s ease forwards;
+        }
+
+        .hero-copy > *:nth-child(1) {
+            animation-delay: 0.08s;
+        }
+
+        .hero-copy > *:nth-child(2) {
+            animation-delay: 0.18s;
+        }
+
+        .hero-copy > *:nth-child(3) {
+            animation-delay: 0.28s;
+        }
+
+        .hero-copy > *:nth-child(4) {
+            animation-delay: 0.38s;
+        }
+
+        .hero-copy > *:nth-child(5) {
+            animation-delay: 0.48s;
+        }
+
+        @keyframes riseIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatCard {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        @keyframes floatUp {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        .footer-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 960px) {
+            .hero-grid,
+            .process-band,
+            .cta-box,
+            .service-grid,
+            .portfolio-grid,
+            .steps-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-head,
+            .cta-actions {
+                align-items: flex-start;
+                justify-content: flex-start;
+            }
+
+            .hero {
+                padding-top: 4.5rem;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .nav {
+                padding: 1rem 0;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 0.9rem;
+            }
+
+            .hero h1 {
+                max-width: 100%;
+            }
+
+            .hero-card,
+            .card,
+            .cta-box {
+                border-radius: 22px;
+            }
         }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <img src="logo_redondo.png" alt="WebAplications">
-                <span style="background: linear-gradient(90deg, #1F2937, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">WebAplications</span>
+    <header class="site-header">
+        <div class="container nav">
+            <a class="brand" href="#inicio">
+                <img src="logo_redondo.png" alt="Logo de WebAplications">
+                <span>WebAplications</span>
             </a>
-            <div class="nav-links">
-                <a href="#objetivo">Objetivo</a>
-                <a href="https://wa.me/573150946019?text=Hola%2C%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n%20sobre%20el%20desarrollo%20de%20aplicaciones%20web" target="_blank">Contáctanos</a>
-            </div>
+
+            <nav class="nav-links">
+                <a href="#servicios">Servicios</a>
+                <a href="#portafolio">Portafolio</a>
+                <a href="#proceso">Proceso</a>
+                <a href="#contacto">Contacto</a>
+                <a class="btn btn-primary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20informacion%20sobre%20una%20aplicacion%20web" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    Escribenos
+                </a>
+            </nav>
         </div>
     </header>
 
-    <section class="hero">
-        <h1>Impulsa tu Negocio con WebAplications</h1>
-        <p>Somos un equipo especializado en la venta y desarrollo de aplicaciones web de alta calidad para llevar tu negocio al siguiente nivel.</p>
-        <div class="price-badge" id="priceBadge">
-            Tu Aplicación Web por $4.000.000 COL
+    <main>
+        <section class="hero" id="inicio">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <div class="eyebrow float-up">
+                        <i class="fa-solid fa-sparkles"></i>
+                        Aplicaciones web hechas para vender
+                    </div>
+                    <h1>Tu negocio necesita una web que <strong>trabaje por ti</strong>.</h1>
+                    <p>
+                        Diseñamos aplicaciones web modernas para tiendas, marcas y negocios que quieren vender mas,
+                        verse profesionales y automatizar tareas sin complicarse con tecnologia innecesaria.
+                    </p>
+
+                    <div class="hero-actions">
+                        <a class="btn btn-primary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20mi%20pagina%20web%20con%20WebAplications" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            Solicitar cotizacion
+                        </a>
+                        <a class="btn btn-secondary" href="#portafolio">
+                            <i class="fa-solid fa-arrow-down"></i>
+                            Ver proyectos
+                        </a>
+                    </div>
+
+                    <div class="hero-points">
+                        <span><i class="fa-solid fa-circle-check"></i> Diseño responsive</span>
+                        <span><i class="fa-solid fa-circle-check"></i> Catalogo y carrito</span>
+                        <span><i class="fa-solid fa-circle-check"></i> Panel administrable</span>
+                    </div>
+                </div>
+
+                <aside class="hero-card reveal">
+                    <div class="mini-label">Plan base</div>
+                    <div class="offer-price">$4.000.000 COP</div>
+                    <p class="offer-note">Una solucion completa para digitalizar tu negocio con presencia profesional y herramientas utiles desde el primer dia.</p>
+
+                    <ul class="offer-list">
+                        <li><i class="fa-solid fa-check"></i><span>Catalogo de productos o servicios con imagenes, categorias y detalle.</span></li>
+                        <li><i class="fa-solid fa-check"></i><span>Carrito de compras o flujo de contacto para convertir visitas en clientes.</span></li>
+                        <li><i class="fa-solid fa-check"></i><span>Panel de administracion para gestionar contenido, productos o pedidos.</span></li>
+                        <li><i class="fa-solid fa-check"></i><span>Identidad visual clara, estructura moderna y adaptacion a celular.</span></li>
+                    </ul>
+
+                    <div class="wa-box">
+                        <div>
+                            <strong>Atencion directa por WhatsApp</strong>
+                            <small>Respuesta rapida para iniciar tu proyecto.</small>
+                        </div>
+                        <a class="btn btn-secondary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20empezar%20mi%20proyecto%20web" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            Hablar ahora
+                        </a>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section class="stats reveal">
+            <div class="container stats-grid">
+                <div class="stat">
+                    <strong>100%</strong>
+                    <span>Diseño adaptable a celular, tablet y computador.</span>
+                </div>
+                <div class="stat">
+                    <strong>24/7</strong>
+                    <span>Tu pagina sigue mostrando y vendiendo incluso fuera del horario laboral.</span>
+                </div>
+                <div class="stat">
+                    <strong>+Marca</strong>
+                    <span>Mejor percepcion profesional frente a clientes nuevos.</span>
+                </div>
+                <div class="stat">
+                    <strong>+Control</strong>
+                    <span>Administra contenido, pedidos o productos sin depender de terceros.</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="reveal">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Lo que incluye tu pagina web</h2>
+                        <p>La estructura esta pensada para que tu negocio se vea serio, funcione rapido y te ayude a cerrar mas ventas.</p>
+                    </div>
+                </div>
+
+                <div class="service-grid">
+                    <article class="card reveal" style="--delay: 0.05s;">
+                        <div class="service-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                        <h3>Tienda o catalogo digital</h3>
+                        <p>Muestra productos, servicios, precios, descripciones e imagenes con una experiencia clara y facil de recorrer.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.1s;">
+                        <div class="service-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                        <h3>Panel administrable</h3>
+                        <p>Gestiona informacion clave de tu negocio desde una zona privada sin depender cada vez de un desarrollador.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.15s;">
+                        <div class="service-icon"><i class="fa-solid fa-layer-group"></i></div>
+                        <h3>Categorias y organizacion</h3>
+                        <p>Ordenamos tu contenido para que el cliente encuentre rapido lo que necesita y compre con menos friccion.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.2s;">
+                        <div class="service-icon"><i class="fa-solid fa-palette"></i></div>
+                        <h3>Diseño alineado con tu marca</h3>
+                        <p>Colores, estilo visual, jerarquia y secciones construidas para que tu negocio tenga una identidad fuerte.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.25s;">
+                        <div class="service-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                        <h3>Documentos y comprobantes</h3>
+                        <p>Si tu flujo lo necesita, integramos recibos, comprobantes o salidas utiles para tus procesos comerciales.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.3s;">
+                        <div class="service-icon"><i class="fa-solid fa-bolt"></i></div>
+                        <h3>Optimizada para conversion</h3>
+                        <p>Botones claros, llamadas a la accion visibles y una estructura pensada para convertir visitas en conversaciones.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="portafolio" class="reveal">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Proyectos de referencia</h2>
+                        <p>Ejemplos de paginas y aplicaciones web que muestran el tipo de experiencia visual y comercial que podemos construir.</p>
+                    </div>
+                </div>
+
+                <div class="portfolio-grid">
+                    <article class="card portfolio-card reveal" style="--delay: 0.05s;">
+                        <div class="preview">
+                            <iframe src="https://stilez2.vercel.app" title="Vista previa Stilez"></iframe>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Moda / ecommerce</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Stilez App</h3>
+                                    <p>Interfaz moderna para vitrina digital con enfoque visual y comercial.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://stilez2.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card portfolio-card reveal" style="--delay: 0.14s;">
+                        <div class="preview">
+                            <iframe src="https://tienda-three-alpha.vercel.app" title="Vista previa Tienda Alpha"></iframe>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Catalogo / ventas</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Tienda Alpha</h3>
+                                    <p>Estructura enfocada en productos, categorias y recorrido simple de compra.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://tienda-three-alpha.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card portfolio-card reveal" style="--delay: 0.23s;">
+                        <div class="preview">
+                            <iframe src="https://numbers-software.vercel.app" title="Vista previa Numbers Software"></iframe>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Servicios / software</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Numbers Software</h3>
+                                    <p>Landing clara para presentar soluciones digitales con posicionamiento profesional.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://numbers-software.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="proceso" class="reveal">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Asi trabajamos tu proyecto</h2>
+                        <p>Un proceso directo para pasar de la idea a una pagina web funcional, clara y lista para mostrar tu negocio.</p>
+                    </div>
+                </div>
+
+                <div class="steps-grid">
+                    <article class="card reveal" style="--delay: 0.05s;">
+                        <div class="step-number">1</div>
+                        <h3>Diagnostico</h3>
+                        <p>Entendemos tu negocio, tus productos, tu cliente ideal y el objetivo principal de la web.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.12s;">
+                        <div class="step-number">2</div>
+                        <h3>Diseño</h3>
+                        <p>Definimos la estructura visual, las secciones y el estilo que mejor representa tu marca.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.19s;">
+                        <div class="step-number">3</div>
+                        <h3>Desarrollo</h3>
+                        <p>Construimos la pagina con enfoque en velocidad, claridad, adaptacion movil y conversion.</p>
+                    </article>
+
+                    <article class="card reveal" style="--delay: 0.26s;">
+                        <div class="step-number">4</div>
+                        <h3>Entrega</h3>
+                        <p>Revisamos contigo el resultado, hacemos ajustes clave y dejamos la web lista para operar.</p>
+                    </article>
+                </div>
+
+                <div class="process-band reveal" style="--delay: 0.18s;">
+                    <div>
+                        <h3>Objetivo principal</h3>
+                        <p>Que tu negocio tenga una presencia digital que inspire confianza, organice mejor su oferta y facilite el contacto o la venta.</p>
+                    </div>
+                    <div class="pill-list">
+                        <span>Mas confianza</span>
+                        <span>Mejor presentacion</span>
+                        <span>Mas oportunidades</span>
+                        <span>Menos friccion</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal" id="contacto">
+            <div class="container">
+                <div class="cta-box">
+                    <div>
+                        <h2>Haz que tu negocio se vea al nivel que merece.</h2>
+                        <p>Si ya tienes una idea, una tienda, una marca o un servicio que quieras vender mejor en internet, podemos convertirlo en una pagina web lista para impresionar y convertir.</p>
+                    </div>
+                    <div class="cta-actions">
+                        <a class="btn btn-primary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20cotizar%20mi%20pagina%20web%20con%20WebAplications" target="_blank" rel="noopener noreferrer">
+                            <i class="fa-brands fa-whatsapp"></i>
+                            Pedir cotizacion
+                        </a>
+                        <a class="btn btn-secondary" href="mailto:contacto@webaplications.local">
+                            <i class="fa-solid fa-envelope"></i>
+                            Contacto web
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-row">
+            <span>&copy; 2026 WebAplications. Desarrollo de aplicaciones web.</span>
+            <span>Hecho para mostrar, vender y crecer.</span>
         </div>
-    </section>
-
-    <!-- Sección del Objetivo -->
-    <section id="objetivo" class="objective-section">
-        <div class="objective-container">
-            <div class="objective-icon">
-                <i class="fa-solid fa-bullseye"></i>
-            </div>
-            <div class="objective-title">Nuestro Objetivo</div>
-            <div class="objective-text">
-                En <strong>WebAplications</strong> creemos que la tecnología no debe ser un lujo, sino una herramienta al alcance de quienes se atreven a crecer; 
-                de manera que tu negocio <strong>venda más</strong>, atendiendo <strong>mejor</strong> y de manera <strong>automática</strong>, 
-                gracias al poder de una aplicación web hecha a tu medida.
-            </div>
-        </div>
-    </section>
-
-    <section class="features">
-        <h2>Todo lo que incluye tu Aplicación Web</h2>
-        
-        <div class="grid">
-            <div class="card">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <h3>Carrito de Compras</h3>
-                <div class="card-details">Permite a tus clientes seleccionar, acumular y comprar productos de forma rápida, segura y automatizada en cualquier momento del día.</div>
-            </div>
-            
-            <div class="card">
-                <i class="fa-solid fa-gears"></i>
-                <h3>Sistema de Administración</h3>
-                <div class="card-details">Panel de control privado e intuitivo para gestionar tus ventas, clientes, pedidos e inventario sin depender de nadie.</div>
-            </div>
-            
-            <div class="card">
-                <i class="fa-solid fa-tags"></i>
-                <h3>Categorías</h3>
-                <div class="card-details">Clasifica y organiza tus productos en diferentes secciones para que tus clientes encuentren exactamente lo que buscan en segundos.</div>
-            </div>
-            
-            <div class="card">
-                <i class="fa-solid fa-box-open"></i>
-                <h3>Gestión de Productos</h3>
-                <div class="card-details">Sube fotos, establece precios, agrega descripciones y controla el stock de cada artículo disponible en tu tienda.</div>
-            </div>
-            
-            <div class="card">
-                <i class="fa-solid fa-palette"></i>
-                <h3>Cambio de Color de Pǭgina</h3>
-                <div class="card-details">Personaliza los colores principales de tu sitio web en cualquier momento para que siempre coincida con la identidad visual de tu marca.</div>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-copyright"></i>
-                <h3>Construcción de Marca</h3>
-                <div class="card-details">Establece y consolida la identidad de tu negocio en línea para generar confianza y reconocimiento entre tus clientes.</div>
-            </div>
-
-            <div class="card">
-                <i class="fa-solid fa-file-pdf"></i>
-                <h3>Recibos en PDF</h3>
-                <div class="card-details">Genera y descarga automáticamente recibos de compra en formato PDF para ti y tus clientes al finalizar cada transacción.</div>
-            </div>
-
-            <!-- Tarjeta Agente de Whatsapp (Precio adicional: +2.000.000) -->
-            <div class="card locked" data-service="whatsapp" data-price="2000000">
-                <i class="fa-solid fa-lock"></i>
-                <h3>Agente de Whatsapp</h3>
-                <p style="font-size:0.85rem; color:#64748b;">(Adicional)</p>
-                <div class="card-details">El bot de WhatsApp atenderá a los clientes de forma rápida y efectiva, respondiendo preguntas frecuentes y tomando pedidos 24/7.</div>
-            </div>
-            
-            <!-- Tarjeta Campaña publicitaria de Meta (Precio adicional: +3.000.000) -->
-            <div class="card locked" data-service="meta" data-price="3000000">
-                <i class="fa-solid fa-lock"></i>
-                <h3>Campaña publicitaria de Meta</h3>
-                <p style="font-size:0.85rem; color:#64748b;">(Adicional)</p>
-                <div class="card-details">No solo creamos tu app, también la hacemos visible. Manejo y optimización de campañas en Meta Ads, ya sea desde nuestra cuenta profesional o desde la tuya.</div>
-            </div>
-        </div>
-    </section>
-
-    <section class="portfolio-section">
-        <h2>Mira Nuestras Aplicaciones</h2>
-        <p style="color: var(--text-light); margin-bottom: 2rem;">Desliza para ver ejemplos de nuestro trabajo en vivo.</p>
-        
-        <div class="portfolio-scroll">
-            <div class="carousel-track">
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://stilez2.vercel.app" title="Stilez App"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Stilez App</h3>
-                        <a href="https://stilez2.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Tienda Alpha</h3>
-                        <a href="https://tienda-three-alpha.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Numbers Software</h3>
-                        <a href="https://numbers-software.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://stilez2.vercel.app" title="Stilez App"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Stilez App</h3>
-                        <a href="https://stilez2.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Tienda Alpha</h3>
-                        <a href="https://tienda-three-alpha.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
- <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://prevenir-web.vercel.app" title="Tienda Alpha"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Tienda Alpha</h3>
-                        <a href="https://prevenir-web.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-
-
-                <div class="portfolio-item">
-                    <iframe scrolling="no" src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
-                    <div class="portfolio-info">
-                        <h3>Numbers Software</h3>
-                        <a href="https://numbers-software.vercel.app" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ====== SECCIÓN CONTADOR DE CUPOS ====== -->
-    <section class="counter-section" style="background: linear-gradient(135deg, #374151 0%, #111827 100%); padding: 3rem 2rem; text-align: center; margin: 2rem auto; border-radius: 0; max-width: 100%;">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <!-- Icono de reloj -->
-            <div style="font-size: 3rem; color: #fbbf24; margin-bottom: 1rem;">
-                <i class="fa-solid fa-hourglass-half"></i>
-            </div>
-            
-            <!-- Título llamativo -->
-            <h2 style="color: white; font-size: 1.8rem; margin-bottom: 1rem; font-weight: bold;">
-                ¡Oferta Exclusiva!
-            </h2>
-            
-            <!-- Texto de motivación -->
-            <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 1.5rem;">
-                Estamos aceptando un número limitado de proyectos este mes para garantizar calidad y atención personalizada.
-            </p>
-            
-            <!-- CONTADOR DE CUPOS DINÁMICO -->
-            <div style="background-color: rgba(255,255,255,0.1); border-radius: 60px; padding: 1rem 2rem; display: inline-block; margin-bottom: 1.5rem;">
-                <span id="textoCupos" style="font-size: 1.4rem; font-weight: bold; color: #fbbf24;">⏳ Cupo limitado: 6 disponibles este mes</span>
-            </div>
-            
-            <!-- Botón que al hacer clic disminuye cupos y redirige a WhatsApp -->
-            <div>
-                <a href="https://wa.me/573150946019?text=Hola%2C%20quiero%20comenzar%20mi%20aplicaci%C3%B3n%20web%20con%20WebUp" 
-                   id="botonComenzar"
-                   target="_blank"
-                   onclick="disminuirCupos()"
-                   style="display: inline-block; background-color: #25D366; color: white; text-decoration: none; padding: 1rem 2.5rem; border-radius: 50px; font-weight: bold; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);">
-                    <i class="fa-brands fa-whatsapp" style="margin-right: 8px;"></i>
-                    Comenzar ahora
-                </a>
-            </div>
-            
-            <!-- Pequeño texto adicional -->
-            <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 1.5rem;">
-                *Al hacer clic, confirmas tu interés y apartas tu cupo automáticamente.
-            </p>
-        </div>
-    </section>
-
-    <footer id="contacto">
-        <p>&copy; 2025 WebAplications - Todos los derechos reservados.</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cards = document.querySelectorAll('.card');
-            const priceBadge = document.getElementById('priceBadge');
-            
-            // Precio base
-            const BASE_PRICE = 4000000;
-            
-            // Objeto para llevar el estado de los servicios adicionales
-            let selectedServices = {
-                whatsapp: false,
-                meta: false
-            };
-            
-            // Función para formatear el precio en pesos colombianos
-            function formatPrice(price) {
-                return new Intl.NumberFormat('es-CO', {
-                    style: 'currency',
-                    currency: 'COP',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }).format(price).replace('COP', 'COL');
-            }
-            
-            // Función para actualizar el precio mostrado
-            function updatePrice() {
-                let additionalPrice = 0;
-                if (selectedServices.whatsapp) additionalPrice += 2000000; // +2M para WhatsApp
-                if (selectedServices.meta) additionalPrice += 3000000;    // +3M para Meta
-                
-                const totalPrice = BASE_PRICE + additionalPrice;
-                priceBadge.innerHTML = `Tu Aplicación Web por ${formatPrice(totalPrice)}`;
-                
-                // Pequeña animación de feedback visual
-                priceBadge.style.transform = 'scale(1.02)';
-                setTimeout(() => {
-                    priceBadge.style.transform = 'scale(1)';
-                }, 200);
-            }
-            
-            // Función para actualizar el estado visual de una tarjeta y su precio
-            function toggleCard(card, isActive) {
-                const lockIcon = card.querySelector('i.fa-lock, i.fa-lock-open');
-                const serviceType = card.dataset.service;
-                
-                if (isActive) {
-                    card.classList.add('active');
-                    if (lockIcon) {
-                        lockIcon.classList.remove('fa-lock');
-                        lockIcon.classList.add('fa-lock-open');
-                    }
-                    if (serviceType === 'whatsapp') selectedServices.whatsapp = true;
-                    if (serviceType === 'meta') selectedServices.meta = true;
-                } else {
-                    card.classList.remove('active');
-                    if (lockIcon) {
-                        lockIcon.classList.remove('fa-lock-open');
-                        lockIcon.classList.add('fa-lock');
-                    }
-                    if (serviceType === 'whatsapp') selectedServices.whatsapp = false;
-                    if (serviceType === 'meta') selectedServices.meta = false;
+        const revealItems = document.querySelectorAll('.reveal');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    revealObserver.unobserve(entry.target);
                 }
-                updatePrice();
-            }
-            
-            // Evento de clic para las tarjetas con servicios adicionales (locked)
-            cards.forEach(card => {
-                // Solo las tarjetas con data-service (adicionales) manejan precio
-                const hasService = card.dataset.service !== undefined;
-                
-                card.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    
-                    // Si la tarjeta ya está activa, la desactivamos
-                    if (card.classList.contains('active')) {
-                        toggleCard(card, false);
-                    } 
-                    // Si no está activa, la activamos
-                    else {
-                        toggleCard(card, true);
-                    }
-                });
             });
-            
-            // Inicializar precio base
-            updatePrice();
+        }, {
+            threshold: 0.16,
+            rootMargin: '0px 0px -40px 0px'
         });
 
-        // Inicializar contador de cupos
-        let cuposDisponibles = 6;
-        const textoCupos = document.getElementById('textoCupos');
-        
-        // Actualizar texto inicial
-        function actualizarTextoContador() {
-            if (textoCupos) {
-                textoCupos.textContent = `⏳ Cupo limitado: ${cuposDisponibles} ${cuposDisponibles === 1 ? 'disponible' : 'disponibles'} este mes`;
-            }
-        }
-        
-        // Función para disminuir cupos (se llama al hacer clic)
-        function disminuirCupos() {
-            // Disminuir cupos
-            cuposDisponibles--;
-            
-            // Si llega a 0, reiniciar a 6
-            if (cuposDisponibles === 0) {
-                cuposDisponibles = 6;
-            }
-            
-            // Actualizar el texto
-            actualizarTextoContador();
-            
-            // Pequeña animación de feedback
-            const boton = document.getElementById('botonComenzar');
-            if (boton) {
-                boton.classList.add('scale-95');
-                setTimeout(() => {
-                    boton.classList.remove('scale-95');
-                }, 100);
-            }
-            
-            // El enlace a WhatsApp se abre automáticamente por el href
-            return true;
-        }
-        
-        // Asegurar que el texto inicial sea correcto
-        actualizarTextoContador();
+        revealItems.forEach((item) => {
+            revealObserver.observe(item);
+        });
     </script>
 </body>
 </html>
