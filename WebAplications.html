@@ -263,9 +263,10 @@
         }
 
         .plan-toggle {
+            position: relative;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 1rem;
             border: 1px solid rgba(212, 175, 55, 0.2);
             background: rgba(212, 175, 55, 0.08);
@@ -293,11 +294,9 @@
             line-height: 1.2;
         }
 
-        .plan-toggle small {
-            color: #f5dd87;
-        }
-
         .plan-toggle-icon {
+            position: absolute;
+            left: 1rem;
             width: 48px;
             height: 48px;
             border-radius: 14px;
@@ -312,6 +311,7 @@
 
         .plan-toggle-copy {
             flex: 1;
+            text-align: center;
         }
 
         .stats {
@@ -778,7 +778,6 @@
                         <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="planToggleIcon"></i></span>
                         <span class="plan-toggle-copy">
                             <strong>Segmentacion de Meta</strong>
-                            <small>Haz clic en el candado para activar el Plan Pro.</small>
                         </span>
                     </button>
                 </aside>
@@ -977,10 +976,6 @@
                         <a class="btn btn-primary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20cotizar%20mi%20pagina%20web%20con%20WebAplications" target="_blank" rel="noopener noreferrer">
                             <i class="fa-brands fa-whatsapp"></i>
                             Pedir cotizacion
-                        </a>
-                        <a class="btn btn-secondary" href="mailto:contacto@webaplications.local">
-                            <i class="fa-solid fa-envelope"></i>
-                            Contacto web
                         </a>
                     </div>
                 </div>
