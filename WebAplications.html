@@ -262,23 +262,53 @@
             margin-top: 0.2rem;
         }
 
-        .wa-box {
+        .plan-toggle {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
-            border: 1px solid rgba(37, 211, 102, 0.25);
-            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            background: rgba(212, 175, 55, 0.08);
             border-radius: 20px;
             padding: 1rem 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
         }
 
-        .wa-box strong {
+        .plan-toggle:hover {
+            transform: translateY(-2px);
+            border-color: rgba(212, 175, 55, 0.34);
+            background: rgba(212, 175, 55, 0.12);
+        }
+
+        .plan-toggle.active {
+            border-color: rgba(212, 175, 55, 0.42);
+            background: rgba(212, 175, 55, 0.16);
+        }
+
+        .plan-toggle strong {
             display: block;
         }
 
-        .wa-box small {
-            color: #c7f7d6;
+        .plan-toggle small {
+            color: #f5dd87;
+        }
+
+        .plan-toggle-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(17, 24, 39, 0.36);
+            color: var(--gold);
+            font-size: 1.15rem;
+            flex-shrink: 0;
+        }
+
+        .plan-toggle-copy {
+            flex: 1;
         }
 
         .stats {
@@ -730,8 +760,8 @@
                 </div>
 
                 <aside class="hero-card reveal">
-                    <div class="mini-label">Plan base</div>
-                    <div class="offer-price">$4.000.000 COP</div>
+                    <div class="mini-label" id="planName">Plan base</div>
+                    <div class="offer-price" id="planPrice">$4.000.000 COL</div>
                     <p class="offer-note">Una solucion completa para digitalizar tu negocio con presencia profesional y herramientas utiles desde el primer dia.</p>
 
                     <ul class="offer-list">
@@ -741,16 +771,13 @@
                         <li><i class="fa-solid fa-check"></i><span>Identidad visual clara, estructura moderna y adaptacion a celular.</span></li>
                     </ul>
 
-                    <div class="wa-box">
-                        <div>
-                            <strong>Atencion directa por WhatsApp</strong>
-                            <small>Respuesta rapida para iniciar tu proyecto.</small>
-                        </div>
-                        <a class="btn btn-secondary" href="https://wa.me/573150946019?text=Hola%2C%20quiero%20empezar%20mi%20proyecto%20web" target="_blank" rel="noopener noreferrer">
-                            <i class="fa-brands fa-whatsapp"></i>
-                            Hablar ahora
-                        </a>
-                    </div>
+                    <button class="plan-toggle" id="planToggle" type="button" aria-pressed="false">
+                        <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="planToggleIcon"></i></span>
+                        <span class="plan-toggle-copy">
+                            <strong>Segmentacion de Meta</strong>
+                            <small>Haz clic en el candado para activar el Plan Pro.</small>
+                        </span>
+                    </button>
                 </aside>
             </div>
         </section>
@@ -967,6 +994,10 @@
 
     <script>
         const revealItems = document.querySelectorAll('.reveal');
+        const planToggle = document.getElementById('planToggle');
+        const planToggleIcon = document.getElementById('planToggleIcon');
+        const planName = document.getElementById('planName');
+        const planPrice = document.getElementById('planPrice');
 
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -983,6 +1014,17 @@
         revealItems.forEach((item) => {
             revealObserver.observe(item);
         });
+
+        if (planToggle && planToggleIcon && planName && planPrice) {
+            planToggle.addEventListener('click', () => {
+                const isActive = planToggle.classList.toggle('active');
+
+                planToggle.setAttribute('aria-pressed', String(isActive));
+                planName.textContent = isActive ? 'Plan Pro' : 'Plan base';
+                planPrice.textContent = isActive ? '$6.000.000 COL' : '$4.000.000 COL';
+                planToggleIcon.className = isActive ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock';
+            });
+        }
     </script>
 </body>
 </html>
