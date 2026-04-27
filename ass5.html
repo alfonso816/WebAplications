@@ -477,8 +477,8 @@
                 <div class="card-details">El bot de WhatsApp atenderá a los clientes de forma rápida y efectiva, respondiendo preguntas frecuentes y tomando pedidos 24/7.</div>
             </div>
             
-            <!-- Tarjeta Campaña publicitaria de Meta (Precio adicional: +3.000.000) -->
-            <div class="card locked" data-service="meta" data-price="3000000">
+            <!-- Tarjeta Campaña publicitaria de Meta (Precio adicional: +2.000.000) -->
+            <div class="card locked" data-service="meta" data-price="2000000">
                 <i class="fa-solid fa-lock"></i>
                 <h3>Campaña publicitaria de Meta</h3>
                 <p style="font-size:0.85rem; color:#64748b;">(Adicional)</p>
@@ -605,7 +605,7 @@
             const priceBadge = document.getElementById('priceBadge');
             
             // Precio base
-            const BASE_PRICE = 4000000;
+            const BASE_PRICE = 2000000;
             
             // Objeto para llevar el estado de los servicios adicionales
             let selectedServices = {
@@ -627,7 +627,7 @@
             function updatePrice() {
                 let additionalPrice = 0;
                 if (selectedServices.whatsapp) additionalPrice += 2000000; // +2M para WhatsApp
-                if (selectedServices.meta) additionalPrice += 3000000;    // +3M para Meta
+                if (selectedServices.meta) additionalPrice += 2000000;    // +2M para Meta
                 
                 const totalPrice = BASE_PRICE + additionalPrice;
                 priceBadge.innerHTML = `Tu Aplicación Web por ${formatPrice(totalPrice)}`;
