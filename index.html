@@ -445,11 +445,64 @@
             border-color: rgba(212, 175, 55, 0.35);
         }
 
-        .preview iframe {
+        .preview-content {
             width: 100%;
             height: 100%;
-            border: 0;
-            pointer-events: none;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1rem;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.4)),
+                radial-gradient(circle at top left, rgba(212, 175, 55, 0.28), transparent 48%);
+        }
+
+        .preview-window {
+            width: 100%;
+            height: 132px;
+            border-radius: 18px;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.92));
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .preview-dots {
+            display: flex;
+            gap: 0.45rem;
+        }
+
+        .preview-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .preview-window strong {
+            font-size: 1.15rem;
+            color: #fff;
+        }
+
+        .preview-window small {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 0.82rem;
+        }
+
+        .preview-note {
+            display: inline-flex;
+            align-self: flex-start;
+            padding: 0.45rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.66);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            color: var(--text);
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
         .portfolio-meta {
@@ -857,8 +910,17 @@
 
                 <div class="portfolio-grid">
                     <article class="card portfolio-card reveal" style="--delay: 0.05s;">
-                        <div class="preview">
-                            <iframe src="https://stilez2.vercel.app" title="Vista previa Stilez"></iframe>
+                        <div class="preview" aria-hidden="true">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Stilez App</strong>
+                                        <small>stilez2.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Vista de referencia sin scroll</span>
+                            </div>
                         </div>
                         <div>
                             <span class="portfolio-tag">Moda / ecommerce</span>
@@ -873,8 +935,17 @@
                     </article>
 
                     <article class="card portfolio-card reveal" style="--delay: 0.14s;">
-                        <div class="preview">
-                            <iframe src="https://tienda-three-alpha.vercel.app" title="Vista previa Tienda Alpha"></iframe>
+                        <div class="preview" aria-hidden="true">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Tienda Alpha</strong>
+                                        <small>tienda-three-alpha.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Vista de referencia sin scroll</span>
+                            </div>
                         </div>
                         <div>
                             <span class="portfolio-tag">Catalogo / ventas</span>
@@ -889,8 +960,17 @@
                     </article>
 
                     <article class="card portfolio-card reveal" style="--delay: 0.23s;">
-                        <div class="preview">
-                            <iframe src="https://numbers-software.vercel.app" title="Vista previa Numbers Software"></iframe>
+                        <div class="preview" aria-hidden="true">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Numbers Software</strong>
+                                        <small>numbers-software.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Vista de referencia sin scroll</span>
+                            </div>
                         </div>
                         <div>
                             <span class="portfolio-tag">Servicios / software</span>
