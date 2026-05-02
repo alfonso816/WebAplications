@@ -311,11 +311,62 @@
             }
         }
 
-        .portfolio-item iframe {
+        .portfolio-preview {
             width: 100%;
             height: 100%;
-            border: none;
-            pointer-events: none;
+            padding: 1.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(241, 245, 249, 0.95)),
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 42%);
+        }
+
+        .portfolio-browser {
+            width: 100%;
+            height: 170px;
+            border-radius: 14px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .portfolio-browser-top {
+            display: flex;
+            gap: 0.45rem;
+        }
+
+        .portfolio-browser-top span {
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.4);
+        }
+
+        .portfolio-browser strong {
+            color: #fff;
+            font-size: 1.15rem;
+        }
+
+        .portfolio-browser small {
+            color: rgba(255,255,255,0.65);
+            font-size: 0.82rem;
+        }
+
+        .portfolio-note {
+            display: inline-flex;
+            align-self: flex-start;
+            padding: 0.45rem 0.75rem;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.92);
+            color: var(--text-dark);
+            border: 1px solid #e2e8f0;
+            font-size: 0.78rem;
+            font-weight: 700;
         }
 
         .portfolio-info {
@@ -494,7 +545,13 @@
         <div class="portfolio-scroll">
             <div class="carousel-track">
                 <div class="portfolio-item">
-                    <iframe src="https://stilez2.vercel.app" title="Stilez App"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Stilez App</strong><br><small>stilez2.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Stilez App</h3>
                         <a href="https://stilez2.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -502,7 +559,13 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <iframe src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Tienda Alpha</strong><br><small>tienda-three-alpha.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Tienda Alpha</h3>
                         <a href="https://tienda-three-alpha.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -510,7 +573,13 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <iframe src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Numbers Software</strong><br><small>numbers-software.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Numbers Software</h3>
                         <a href="https://numbers-software.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -518,7 +587,13 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <iframe src="https://stilez2.vercel.app" title="Stilez App"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Stilez App</strong><br><small>stilez2.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Stilez App</h3>
                         <a href="https://stilez2.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -526,7 +601,13 @@
                 </div>
 
                 <div class="portfolio-item">
-                    <iframe src="https://tienda-three-alpha.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Tienda Alpha</strong><br><small>tienda-three-alpha.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Tienda Alpha</h3>
                         <a href="https://tienda-three-alpha.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -534,16 +615,28 @@
                 </div>
 
  <div class="portfolio-item">
-                    <iframe src="https://prevenir-web.vercel.app" title="Tienda Alpha"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Prevenir Web</strong><br><small>prevenir-web.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
-                        <h3>Tienda Alpha</h3>
+                        <h3>Prevenir Web</h3>
                         <a href="https://prevenir-web.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                     </div>
                 </div>
 
 
                 <div class="portfolio-item">
-                    <iframe src="https://numbers-software.vercel.app" title="Numbers Software"></iframe>
+                    <div class="portfolio-preview" aria-hidden="true">
+                        <div class="portfolio-browser">
+                            <div class="portfolio-browser-top"><span></span><span></span><span></span></div>
+                            <div><strong>Numbers Software</strong><br><small>numbers-software.vercel.app</small></div>
+                        </div>
+                        <span class="portfolio-note">Vista sin scroll</span>
+                    </div>
                     <div class="portfolio-info">
                         <h3>Numbers Software</h3>
                         <a href="https://numbers-software.vercel.app" target="_blank">Ver Proyecto <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
