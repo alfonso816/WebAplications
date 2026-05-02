@@ -422,22 +422,56 @@
             color: var(--muted);
         }
 
+        .portfolio-scroll {
+            overflow: hidden;
+            padding: 0.5rem 0;
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        }
+
+        .portfolio-track {
+            display: flex;
+            gap: 1.4rem;
+            width: max-content;
+            animation: portfolio-marquee 28s linear infinite reverse;
+        }
+
+        .portfolio-scroll:hover .portfolio-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes portfolio-marquee {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(calc(-50% - 0.7rem));
+            }
+        }
+
         .portfolio-card {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            width: min(320px, 82vw);
+            flex: 0 0 auto;
         }
 
         .preview {
-            min-height: 220px;
+            min-height: 260px;
             border-radius: 20px;
             border: 1px solid rgba(15, 23, 42, 0.08);
             overflow: hidden;
-            background: linear-gradient(135deg, #efede8 0%, #ddd9d1 100%);
-            display: grid;
-            place-items: center;
+            background: #111827;
             position: relative;
             transition: transform 0.35s ease, border-color 0.35s ease;
+        }
+
+        .preview::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.04), rgba(15, 23, 42, 0.64));
         }
 
         .portfolio-card:hover .preview {
@@ -445,30 +479,39 @@
             border-color: rgba(212, 175, 55, 0.35);
         }
 
+        .preview-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
         .preview-content {
             width: 100%;
             height: 100%;
-            padding: 1.5rem;
+            padding: 1.2rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             gap: 1rem;
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.4)),
-                radial-gradient(circle at top left, rgba(212, 175, 55, 0.28), transparent 48%);
+            position: relative;
+            z-index: 1;
         }
 
         .preview-window {
             width: 100%;
-            height: 132px;
+            height: 156px;
             border-radius: 18px;
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.92));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 41, 59, 0.72));
             padding: 1rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
         }
 
         .preview-dots {
@@ -498,11 +541,12 @@
             align-self: flex-start;
             padding: 0.45rem 0.75rem;
             border-radius: 999px;
-            background: rgba(255, 255, 255, 0.66);
-            border: 1px solid rgba(15, 23, 42, 0.08);
-            color: var(--text);
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
             font-size: 0.8rem;
             font-weight: 600;
+            backdrop-filter: blur(4px);
         }
 
         .portfolio-meta {
@@ -908,9 +952,11 @@
                     </div>
                 </div>
 
-                <div class="portfolio-grid">
+                <div class="portfolio-scroll reveal" style="--delay: 0.08s;">
+                    <div class="portfolio-track">
                     <article class="card portfolio-card reveal" style="--delay: 0.05s;">
                         <div class="preview" aria-hidden="true">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://stilez2.vercel.app" alt="">
                             <div class="preview-content">
                                 <div class="preview-window">
                                     <div class="preview-dots"><span></span><span></span><span></span></div>
@@ -919,7 +965,7 @@
                                         <small>stilez2.vercel.app</small>
                                     </div>
                                 </div>
-                                <span class="preview-note">Vista de referencia sin scroll</span>
+                                <span class="preview-note">Caratula del proyecto</span>
                             </div>
                         </div>
                         <div>
@@ -936,6 +982,7 @@
 
                     <article class="card portfolio-card reveal" style="--delay: 0.14s;">
                         <div class="preview" aria-hidden="true">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://tienda-three-alpha.vercel.app" alt="">
                             <div class="preview-content">
                                 <div class="preview-window">
                                     <div class="preview-dots"><span></span><span></span><span></span></div>
@@ -944,7 +991,7 @@
                                         <small>tienda-three-alpha.vercel.app</small>
                                     </div>
                                 </div>
-                                <span class="preview-note">Vista de referencia sin scroll</span>
+                                <span class="preview-note">Caratula del proyecto</span>
                             </div>
                         </div>
                         <div>
@@ -961,6 +1008,7 @@
 
                     <article class="card portfolio-card reveal" style="--delay: 0.23s;">
                         <div class="preview" aria-hidden="true">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://numbers-software.vercel.app" alt="">
                             <div class="preview-content">
                                 <div class="preview-window">
                                     <div class="preview-dots"><span></span><span></span><span></span></div>
@@ -969,7 +1017,7 @@
                                         <small>numbers-software.vercel.app</small>
                                     </div>
                                 </div>
-                                <span class="preview-note">Vista de referencia sin scroll</span>
+                                <span class="preview-note">Caratula del proyecto</span>
                             </div>
                         </div>
                         <div>
@@ -983,6 +1031,85 @@
                             </div>
                         </div>
                     </article>
+
+                    <article class="card portfolio-card" aria-hidden="true">
+                        <div class="preview">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://stilez2.vercel.app" alt="">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Stilez App</strong>
+                                        <small>stilez2.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Caratula del proyecto</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Moda / ecommerce</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Stilez App</h3>
+                                    <p>Interfaz moderna para vitrina digital con enfoque visual y comercial.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://stilez2.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card portfolio-card" aria-hidden="true">
+                        <div class="preview">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://tienda-three-alpha.vercel.app" alt="">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Tienda Alpha</strong>
+                                        <small>tienda-three-alpha.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Caratula del proyecto</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Catalogo / ventas</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Tienda Alpha</h3>
+                                    <p>Estructura enfocada en productos, categorias y recorrido simple de compra.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://tienda-three-alpha.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="card portfolio-card" aria-hidden="true">
+                        <div class="preview">
+                            <img class="preview-image" src="https://image.thum.io/get/width/1200/https://numbers-software.vercel.app" alt="">
+                            <div class="preview-content">
+                                <div class="preview-window">
+                                    <div class="preview-dots"><span></span><span></span><span></span></div>
+                                    <div>
+                                        <strong>Numbers Software</strong>
+                                        <small>numbers-software.vercel.app</small>
+                                    </div>
+                                </div>
+                                <span class="preview-note">Caratula del proyecto</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="portfolio-tag">Servicios / software</span>
+                            <div class="portfolio-meta">
+                                <div>
+                                    <h3>Numbers Software</h3>
+                                    <p>Landing clara para presentar soluciones digitales con posicionamiento profesional.</p>
+                                </div>
+                                <a class="portfolio-link" href="https://numbers-software.vercel.app" target="_blank" rel="noopener noreferrer">Abrir</a>
+                            </div>
+                        </div>
+                    </article>
+                    </div>
                 </div>
             </div>
         </section>
