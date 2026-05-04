@@ -261,6 +261,12 @@
             margin-top: 0.2rem;
         }
 
+        .plan-toggle-group {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
         .plan-toggle {
             display: flex;
             align-items: center;
@@ -272,6 +278,7 @@
             padding: 1rem 1.1rem;
             cursor: pointer;
             transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+            width: 100%;
         }
 
         .plan-toggle:hover {
@@ -303,6 +310,7 @@
         .plan-toggle-copy {
             display: inline-flex;
             align-items: center;
+            text-align: left;
         }
 
         .stats {
@@ -786,6 +794,10 @@
             .cta-box {
                 border-radius: 22px;
             }
+
+            .plan-toggle-group {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -851,15 +863,25 @@
                         <li><i class="fa-solid fa-check"></i><span>Catalogo de productos o servicios con imagenes, categorias y detalle.</span></li>
                         <li><i class="fa-solid fa-check"></i><span>Carrito de compras o flujo de contacto para convertir visitas en clientes.</span></li>
                         <li><i class="fa-solid fa-check"></i><span>Panel de administracion para gestionar contenido, productos o pedidos.</span></li>
+                        <li><i class="fa-solid fa-check"></i><span>Agente de WhatsApp para responder clientes y apoyar la atencion comercial.</span></li>
                         <li><i class="fa-solid fa-check"></i><span>Identidad visual clara, estructura moderna y adaptacion a celular.</span></li>
                     </ul>
 
-                    <button class="plan-toggle" id="planToggle" type="button" aria-pressed="false">
-                        <span class="plan-toggle-copy">
-                            <strong>Segmentacion por Meta</strong>
-                        </span>
-                        <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="planToggleIcon"></i></span>
-                    </button>
+                    <div class="plan-toggle-group">
+                        <button class="plan-toggle" id="metaToggle" type="button" aria-pressed="false">
+                            <span class="plan-toggle-copy">
+                                <strong>Segmentacion por Meta</strong>
+                            </span>
+                            <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="metaToggleIcon"></i></span>
+                        </button>
+
+                        <button class="plan-toggle" id="mobileToggle" type="button" aria-pressed="false">
+                            <span class="plan-toggle-copy">
+                                <strong>Aplicacion movil</strong>
+                            </span>
+                            <span class="plan-toggle-icon"><i class="fa-solid fa-lock" id="mobileToggleIcon"></i></span>
+                        </button>
+                    </div>
                 </aside>
             </div>
         </section>
@@ -1287,10 +1309,15 @@
 
     <script>
         const revealItems = document.querySelectorAll('.reveal');
-        const planToggle = document.getElementById('planToggle');
-        const planToggleIcon = document.getElementById('planToggleIcon');
+        const metaToggle = document.getElementById('metaToggle');
+        const metaToggleIcon = document.getElementById('metaToggleIcon');
+        const mobileToggle = document.getElementById('mobileToggle');
+        const mobileToggleIcon = document.getElementById('mobileToggleIcon');
         const planName = document.getElementById('planName');
         const planPrice = document.getElementById('planPrice');
+        const BASE_PRICE = 4000000;
+        const META_PRICE = 1000000;
+        const MOBILE_PRICE = 2000000;
 
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
@@ -1308,16 +1335,39 @@
             revealObserver.observe(item);
         });
 
-        if (planToggle && planToggleIcon && planName && planPrice) {
-            planToggle.addEventListener('click', () => {
-                const isActive = planToggle.classList.toggle('active');
+        function formatPlanPrice(value) {
+            return `$${value.toLocaleString('es-CO')} COL`;
+        }
 
-                planToggle.setAttribute('aria-pressed', String(isActive));
-                planName.textContent = isActive ? 'Plan Pro' : 'Plan base';
-                planPrice.textContent = isActive ? '$5.000.000 COL' : '$4.000.000 COL';
-                planToggleIcon.className = isActive ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock';
+        function updatePlanPrice() {
+            if (!planName || !planPrice) {
+                return;
+            }
+
+            const hasMeta = metaToggle ? metaToggle.classList.contains('active') : false;
+            const hasMobile = mobileToggle ? mobileToggle.classList.contains('active') : false;
+            const total = BASE_PRICE + (hasMeta ? META_PRICE : 0) + (hasMobile ? MOBILE_PRICE : 0);
+
+            planName.textContent = hasMeta || hasMobile ? 'Plan Pro' : 'Plan base';
+            planPrice.textContent = formatPlanPrice(total);
+        }
+
+        function bindPlanToggle(button, icon) {
+            if (!button || !icon) {
+                return;
+            }
+
+            button.addEventListener('click', () => {
+                const isActive = button.classList.toggle('active');
+                button.setAttribute('aria-pressed', String(isActive));
+                icon.className = isActive ? 'fa-solid fa-lock-open' : 'fa-solid fa-lock';
+                updatePlanPrice();
             });
         }
+
+        bindPlanToggle(metaToggle, metaToggleIcon);
+        bindPlanToggle(mobileToggle, mobileToggleIcon);
+        updatePlanPrice();
 
         let cuposDisponibles = 6;
         const textoCupos = document.getElementById('textoCupos');
